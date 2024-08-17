@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, Slice } from "@reduxjs/toolkit";
 
 interface Item {
     id: number;
@@ -12,7 +12,7 @@ const initialState: ListState = {
     items: [],
 }
 
-export const listSlice = createSlice({
+export const listSlice: Slice<ListState> = createSlice({
     name: "list",
     initialState,
     reducers: {
