@@ -16,3 +16,24 @@ export const createData = (db: Database): void => {
         logger.error((err as Error).message);
     } 
 }
+
+export const insertToken = (db: Database, token: string): void => {
+    const deleteToken = `DELETE FROM token`;
+    const insertToken = `INSERT INTO token(token) VALUES(?)`;
+    try {
+        db.run(deleteToken, (err) => {
+            if(err){
+                logger.error(err.message);
+            }
+            logger.info('Token deleted');
+        });
+        db.run(insertToken, [token], (err) => {
+            if(err){
+                logger.error(err.message);
+            }
+            logger.info('Token inserted');
+        });
+    } catch (err) {
+        logger.error((err as Error).message);
+    }
+}
