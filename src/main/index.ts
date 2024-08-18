@@ -2,10 +2,12 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { databaseConnector, createDatabaseIfNotExists, closeConnection } from './dbManager/dbConnection'
+import { createData } from './dbManager/dbOperator'
 import icon from '../../resources/icon.png?asset'
 
 function createWindow(): void {
   const db = databaseConnector()
+  createData(db)
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
