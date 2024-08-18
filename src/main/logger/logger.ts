@@ -14,8 +14,10 @@ class Logger {
   }
 
   log(message: string): void {
-    const timestamp = new Date().toISOString();
-    const logMessage = `${timestamp} - ${message}\n`;
+    const timestamp = new Date();
+    timestamp.setHours(timestamp.getHours() - 3);
+    const formattedTimestamp = timestamp.toISOString();
+    const logMessage = `${formattedTimestamp} - ${message}\n`;
 
     fs.appendFile(this.logFilePath, logMessage, (err) => {
       if (err) {
