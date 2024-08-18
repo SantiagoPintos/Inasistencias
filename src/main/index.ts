@@ -2,9 +2,11 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { databaseConnector, createDatabaseIfNotExists, closeConnection } from './dbManager/dbConnection'
-import { createData } from './dbManager/dbOperator'
+import { createData, insertToken } from './dbManager/dbOperator'
 import icon from '../../resources/icon.png?asset'
+import Logger from './logger/logger'
 
+const logger = new Logger('main.log');
 function createWindow(): void {
   const db = databaseConnector()
   createData(db)
@@ -54,8 +56,17 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  ipcMain.handle('send-token', async (_, token: string) => {
+    try{
+      logger.log(`Token received in main`)
+      const db = databaseConnector()
+      closeConnection()
+      insertToken(db, token)
+    } catch (err) {
+      logger.error('Error saving the token: '+(err as Error).message)
+      console.log(err)
+    }
+  })
 
   createWindow()
 
