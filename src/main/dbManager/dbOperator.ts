@@ -17,7 +17,7 @@ export const createData = (db: Database): void => {
     } 
 }
 
-export const insertToken = (db: Database, token: string): void => {
+export const insertToken = async (db: Database, token: string): Promise<void> => {
     const deleteToken = `DELETE FROM token`;
     const insertToken = `INSERT INTO token(token) VALUES(?)`;
     try {
