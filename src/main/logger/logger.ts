@@ -23,6 +23,14 @@ class Logger {
       }
     });
   }
+
+  info(message: string): void {
+    this.log(`INFO: ${message}`);
+  }
+
+  error(message: string): void {
+    this.log(`ERROR: ${message}`);
+  }
 }
 
 export default Logger;
