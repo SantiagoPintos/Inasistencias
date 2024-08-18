@@ -2,7 +2,7 @@ import * as sqlite3 from 'sqlite3';
 import { app } from 'electron';
 import path from 'path';
 import fs from 'fs';
-import Logger from '../../logger/logger';
+import Logger from '../logger/logger';
 
 export const databasePath = path.join(app.getPath("userData"), 'database', 'database.sqlite');
 const logger = new Logger('dbConnection.log');
