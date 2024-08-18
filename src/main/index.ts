@@ -10,6 +10,7 @@ const logger = new Logger('main.log');
 function createWindow(): void {
   const db = databaseConnector()
   createData(db)
+  closeConnection()
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -22,6 +23,7 @@ function createWindow(): void {
       sandbox: false
     }
   })
+  logger.log('Window created')
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
@@ -56,12 +58,12 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  ipcMain.handle('send-token', async (_, token: string) => {
+  ipcMain.on('send-token', async (_, token: string) => {
     try{
       logger.log(`Token received in main`)
       const db = databaseConnector()
+      await insertToken(db, token)
       closeConnection()
-      insertToken(db, token)
     } catch (err) {
       logger.error('Error saving the token: '+(err as Error).message)
       console.log(err)
