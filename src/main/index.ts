@@ -1,9 +1,11 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { databaseConnector, createDatabaseIfNotExists, closeConnection } from './dbManager/dbConnection'
 import icon from '../../resources/icon.png?asset'
 
 function createWindow(): void {
+  const db = databaseConnector()
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -41,6 +43,7 @@ function createWindow(): void {
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.isbo.inasistencias')
+  createDatabaseIfNotExists()
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
