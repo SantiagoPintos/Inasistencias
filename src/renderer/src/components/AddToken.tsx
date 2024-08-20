@@ -7,10 +7,8 @@ const AddToken = () => {
     
     const handleSubmit = async () => {
       if(token.current?.value !== '') {
-        console.log(token.current!.value)
         await window.api.sendToken(token.current!.value)
         token.current!.value = ''
-        console.log('Token sent')
       }
     }
 
