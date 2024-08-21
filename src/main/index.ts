@@ -7,6 +7,11 @@ import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
 
 const logger = new Logger('main.log');
+createDatabaseIfNotExists()
+const db = databaseConnector()
+createData(db)
+closeConnection()
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -46,10 +51,6 @@ function createWindow(): void {
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.isbo.inasistencias')
-  createDatabaseIfNotExists()
-  const db = databaseConnector()
-  createData(db)
-  closeConnection()
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
