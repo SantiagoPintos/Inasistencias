@@ -8,9 +8,6 @@ import Logger from './logger/logger'
 
 const logger = new Logger('main.log');
 function createWindow(): void {
-  const db = databaseConnector()
-  createData(db)
-  closeConnection()
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -50,6 +47,9 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.isbo.inasistencias')
   createDatabaseIfNotExists()
+  const db = databaseConnector()
+  createData(db)
+  closeConnection()
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
