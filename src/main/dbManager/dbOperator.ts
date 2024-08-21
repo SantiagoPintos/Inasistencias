@@ -37,3 +37,17 @@ export const insertToken = async (db: Database, token: string): Promise<void> =>
         logger.error((err as Error).message);
     }
 }
+
+export const getToken = async (db: Database): Promise<string> => {
+    const selectToken = `SELECT token FROM token`;
+    return new Promise((resolve, reject) => {
+        db.get(selectToken, (err, row) => {
+            if(err){
+                logger.error(err.message);
+                reject(err);
+            }
+            logger.info('Token selected');
+            resolve((row as { token: string }).token);
+        });
+    });
+}
