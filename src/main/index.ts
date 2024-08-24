@@ -1,7 +1,7 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import { databaseConnector, createDatabaseIfNotExists, closeConnection } from './dbManager/dbConnection'
+import { databaseConnector, createDatabaseIfNotExists } from './dbManager/dbConnection'
 import { createData, insertToken, getToken } from './dbManager/dbOperator'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
@@ -10,7 +10,6 @@ const logger = new Logger('main.log');
 createDatabaseIfNotExists()
 const db = databaseConnector()
 createData(db)
-closeConnection()
 
 function createWindow(): void {
   // Create the browser window.
@@ -64,7 +63,6 @@ app.whenReady().then(() => {
       logger.log(`Token received in main`)
       const db = databaseConnector()
       await insertToken(db, token)
-      closeConnection()
     } catch (err) {
       logger.error('Error saving the token: '+(err as Error).message)
       console.log(err)
@@ -76,7 +74,6 @@ app.whenReady().then(() => {
       logger.log(`Token requested in main`)
       const db = databaseConnector()
       const token = await getToken(db)
-      closeConnection()
       return token
     } catch (err) {
       logger.error('Error getting the token: '+(err as Error).message)
