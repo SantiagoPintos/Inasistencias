@@ -1,31 +1,23 @@
 import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import AddToken from './components/AddToken'
+import ShowData from './components/showData'
 
 function App(): JSX.Element {
-  const dispatch = useDispatch()
-  const key = useSelector((state: { key: { id: string } }) => state.key.id)
-  const [thereIsKey, setThereIsKey] = useState(false)
+  const [data, setData] = useState<[]>([])
 
   useEffect(() => {
-    const getKey = async () => {
-      try{
-        const getKeyFromDb = await window.api.getToken()
-        if(getKeyFromDb){
-          dispatch({ type: 'key/setKey', payload: getKeyFromDb })
-          setThereIsKey(true)
-        }
-      } catch (error) {
-        console.error(error)
-      }
+    const data = async () => {
+      const data = await window.api.getData()
+      setData(data)
     }
-    getKey()
+
+    data()
   }, [])
 
   return (
     <>
-      {thereIsKey ? (
-        null
+      {data ? (
+        <ShowData data={data.values}/>
       ) : (
         <AddToken />
       )}
