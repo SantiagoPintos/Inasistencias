@@ -5,6 +5,7 @@ import { databaseConnector, createDatabaseIfNotExists } from './dbManager/dbConn
 import { createData, insertToken, getToken } from './dbManager/dbOperator'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
+import { SPREADSHEET_ID } from './../constants/constants'
 
 const logger = new Logger('main.log');
 createDatabaseIfNotExists()
@@ -75,8 +76,8 @@ app.whenReady().then(() => {
       const db = databaseConnector()
       const token = await getToken(db)
       if(token === undefined) return null
-      const RANGE = 'Ingresar datos!A1:D'
-      const url = `https://sheets.googleapis.com/v4/spreadsheets//values/${RANGE}?key=${token}`
+      const RANGE = 'Ingresar datos!A1:K'
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${token}`
       const response = await fetch(url)
       if(!response.ok) return null
       const data = await response.json()
