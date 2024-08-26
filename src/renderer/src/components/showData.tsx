@@ -14,7 +14,7 @@ const ShowData = ({data}) => {
   data=data.slice(2)
 
   return (
-    <div style={{maxWidth:'50%', maxHeight:'75%'}} className="mt-10 ml-10">
+    <div className="mt-10 ml-10">
       <h1 className="text-2xl font-bold text-center my-10">Inasistencias docentes</h1>
       <Table>
         <TableHeader>
