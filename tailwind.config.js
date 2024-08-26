@@ -11,8 +11,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        heading: ['var(--font-heading)', ...fontFamily.sans],
-        body: ['var(--font-body)', ...fontFamily.sans]
+        heading: ['Geist Sans', ...fontFamily.sans],
+        body: ['Geist Sans', ...fontFamily.sans]
       },
       colors: {
         border: 'hsl(var(--border))',
