@@ -69,12 +69,19 @@ app.whenReady().then(() => {
     }
   })
 
-  ipcMain.handle('get-token', async () => {
+  ipcMain.handle('get-data', async () => {
     try{
       logger.log(`Token requested in main`)
       const db = databaseConnector()
       const token = await getToken(db)
-      return token
+      if(token === undefined) return null
+      const RANGE = 'Ingresar datos!A1:D'
+      const url = `https://sheets.googleapis.com/v4/spreadsheets//values/${RANGE}?key=${token}`
+      const response = await fetch(url)
+      if(!response.ok) return null
+      const data = await response.json()
+
+      return data
     } catch (err) {
       logger.error('Error getting the token: '+(err as Error).message)
       console.log(err)
