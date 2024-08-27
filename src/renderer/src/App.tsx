@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import AddToken from './components/AddToken'
+import AddData from './components/AddData'
 import ShowData from './components/showData'
 
 function App(): JSX.Element {
@@ -17,9 +17,18 @@ function App(): JSX.Element {
   return (
     <>
       {data ? (
-        <ShowData data={data.values}/>
+        <div className='w-100 flex'>
+          <div className='w-7/12'>
+              <ShowData data={data.values}/>
+          </div>
+          <div className='w-5/12'>
+            <p></p>
+          </div>
+        </div>
       ) : (
-        <AddToken />
+        <div className='h-screenflex items-center justify-center'>
+            <AddData />
+        </div>
       )}
     </>
   )
