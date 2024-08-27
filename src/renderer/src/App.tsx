@@ -26,7 +26,7 @@ function App(): JSX.Element {
           </div>
         </div>
       ) : (
-        <div className='h-screenflex items-center justify-center'>
+        <div className='h-screen flex items-center justify-center'>
             <AddData />
         </div>
       )}
