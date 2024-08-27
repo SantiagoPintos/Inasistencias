@@ -2,9 +2,10 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { databaseConnector, createDatabaseIfNotExists } from './dbManager/dbConnection'
-import { createData, insertToken, getToken } from './dbManager/dbOperator'
+import { createData, insertData, getToken } from './dbManager/dbOperator'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
+import { extractSpreadsheetId } from './utils/urlParser'
 import { SPREADSHEET_ID } from './../constants/constants'
 
 const logger = new Logger('main.log');
@@ -59,11 +60,16 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  ipcMain.on('send-token', async (_, token: string) => {
+  ipcMain.on('send-data', async (_, token: string, url: string) => {
     try{
-      logger.log(`Token received in main`)
+      logger.log(`Data received in main`)
+      // Assuming this is the url of a sheet: https://docs.google.com/spreadsheets/d/1_LfCQsMJY-7Jd2-Gf6edboZnwFJMC_rmSpPJcZxCtP4/edit#gid=0
+      // we need to extract only the id from the url
+      const id = extractSpreadsheetId(url);
+      if(id === null) return
+      logger.log(`Id extracted`)
       const db = databaseConnector()
-      await insertToken(db, token)
+      await insertData(db, token, id)
     } catch (err) {
       logger.error('Error saving the token: '+(err as Error).message)
       console.log(err)
