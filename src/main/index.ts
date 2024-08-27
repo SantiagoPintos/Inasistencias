@@ -66,7 +66,7 @@ app.whenReady().then(() => {
       // Assuming this is the url of a sheet: https://docs.google.com/spreadsheets/d/1_LfCQsMJY-7Jd2-Gf6edboZnwFJMC_rmSpPJcZxCtP4/edit#gid=0
       // we need to extract only the id from the url
       const id = extractSpreadsheetId(url);
-      if(id === null) return
+      if(id === null) throw new Error('Something went wrong')
       logger.log(`Id extracted`)
       const db = databaseConnector()
       await insertData(db, token, id)

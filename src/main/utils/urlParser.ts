@@ -5,7 +5,13 @@ const logger = new Logger('urlParser.log');
 
 export function extractSpreadsheetId(url: string): string | null {
     logger.info('Extracting spreadsheet id');
-    const regex = /\/d\/([a-zA-Z0-9-_]+)/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
+    try{
+        const regex = /\/d\/([a-zA-Z0-9-_]+)/;
+        const match = url.match(regex);
+        logger.info('Spreadsheet id extracted');
+        return match ? match[1] : null;
+    } catch (err) {
+        logger.error('Error extracting the id: '+(err as Error).message);
+        return null;
+    }
 }

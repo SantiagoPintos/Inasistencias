@@ -3,7 +3,7 @@
 declare global {
     interface Window {
       api: {
-        sendToken: (value: string) => Promise<void>;
+        sendData: (key: string, url: string) => Promise<void>;
         getData: () => Promise<[]>;
       };
     }

@@ -11,8 +11,8 @@ const AddData = () => {
     const [showAlert, setShowAlert] = useState(false)
     
     const handleSubmit = async () => {
-      if(token.current?.value !== '' && sheetId.current?.value !== '') {
-        await window.api.sendToken(token.current!.value)
+      if(token.current?.value !== '' && sheetId.current?.value !== '' && sheetId.current?.value!==undefined && token.current?.value!==undefined){
+        await window.api.sendData(token.current!.value, sheetId.current?.value)
         token.current!.value = ''
         sheetId.current!.value = ''
       } else {
