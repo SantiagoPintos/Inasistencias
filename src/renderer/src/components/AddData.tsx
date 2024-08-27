@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Button } from './ui/Button'
 import { Input } from './ui/Input'
 
-const AddToken = () => {
+const AddData = () => {
     const token = useRef<HTMLInputElement>(null)
     
     const handleSubmit = async () => {
@@ -20,4 +20,4 @@ const AddToken = () => {
     )
 }
 
-export default AddToken
+export default AddData
