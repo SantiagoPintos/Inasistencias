@@ -4,34 +4,38 @@ const logger = new Logger('dbOperator.log');
 
 
 export const createData = (db: Database): void => {
-    const createTokenTable = `CREATE TABLE IF NOT EXISTS token (token TEXT NOT NULL, PRIMARY KEY(token))`;
+    const createDataTable = `CREATE TABLE IF NOT EXISTS data (token TEXT NOT NULL, url TEXT NOT NULL, PRIMARY KEY(token))`;
     try {
-        db.run(createTokenTable, (err) => {
+        db.run(createDataTable, (err) => {
             if(err){
                 logger.error(err.message);
             }
-            logger.info('Token table created');
+            logger.info('Data table created');
         });
     } catch (err) {
         logger.error((err as Error).message);
     } 
 }
 
-export const insertToken = async (db: Database, token: string): Promise<void> => {
-    const deleteToken = `DELETE FROM token`;
-    const insertToken = `INSERT INTO token(token) VALUES(?)`;
+export const insertData = async (db: Database, token: string, url: string): Promise<void> => {
+    const deleteData = `DELETE FROM data`;
+    const insertData = `INSERT INTO data (token, url) VALUES (?, ?)`;
+    if(token === '' || url === ''){
+        logger.error('Data or url is empty');
+        return;
+    }
     try {
-        db.run(deleteToken, (err) => {
+        db.run(deleteData, (err) => {
             if(err){
                 logger.error(err.message);
             }
-            logger.info('Token deleted');
+            logger.info('Data deleted');
         });
-        db.run(insertToken, [token], (err) => {
+        db.run(insertData, [token, url], (err) => {
             if(err){
                 logger.error(err.message);
             }
-            logger.info('Token inserted');
+            logger.info('Data inserted');
         });
     } catch (err) {
         logger.error((err as Error).message);
@@ -39,15 +43,15 @@ export const insertToken = async (db: Database, token: string): Promise<void> =>
 }
 
 export const getToken = async (db: Database): Promise<string> => {
-    const selectToken = `SELECT token FROM token`;
+    const selectData = `SELECT token FROM data`;
     return new Promise((resolve, reject) => {
-        db.get(selectToken, (err, row) => {
+        db.get(selectData, (err, row: string) => {
             if(err){
                 logger.error(err.message);
                 reject(err);
             }
-            logger.info('Token selected');
-            resolve((row as { token: string }).token);
+            logger.info('Data selected');
+            resolve(row);
         });
     });
 }
