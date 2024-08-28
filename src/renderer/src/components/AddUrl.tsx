@@ -10,6 +10,7 @@ export const AddUrl = ({assignId, api_url}) => {
     const [token, setToken] = useState<string>('')
     const [sheetId, setSheetId] = useState<string>('')
     const [showAlert, setShowAlert] = useState(false)
+    const [ buttonDisabled, setButtonDisabled ] = useState<boolean>(true)
 
     const handleSubmit = async () => {
         setShowAlert(false)
@@ -71,6 +72,14 @@ export const AddUrl = ({assignId, api_url}) => {
         })
     }
 
+    const handleButtonState = () => {
+      if(token !=='' && sheetId !==''){
+        setButtonDisabled(false)
+      } else {
+        setButtonDisabled(true)
+      }
+    }
+
     return (
         <>
             {showAlert && (
@@ -82,10 +91,10 @@ export const AddUrl = ({assignId, api_url}) => {
           )}
             <>
               <Label htmlFor="token">API Key</Label>
-              <Input type='text' id="token" placeholder="API Key" className='mb-5' value={token} onChange={(e)=>setToken(e.target.value)}/>
+              <Input type='text' id="token" placeholder="API Key" className='mb-5' value={token} onChange={(e)=>{setToken(e.target.value); handleButtonState()}}/>
               <Label htmlFor="sheet" >URL de Google Sheets</Label>
-              <Input type='text' id="sheet" placeholder="https://docs.google.com/spreadsheets/d/1_LfCQsMJY-7Jd2-Gf6edboZnwFJMC_rmSpasdfa4/" className='mb-5' value={sheetId} onChange={(e)=>setSheetId(e.target.value)}/>
-              <Button type="submit" onClick={handleSubmit}>Guardar</Button>
+              <Input type='text' id="sheet" placeholder="https://docs.google.com/spreadsheets/d/1_LfCQsMJY-7Jd2-Gf6edboZnwFJMC_rmSpasdfa4/" className='mb-5' value={sheetId} onChange={(e)=>{setSheetId(e.target.value); handleButtonState()}}/>
+              <Button disabled={buttonDisabled} type="submit" onClick={handleSubmit}>Guardar</Button>
             </>
         </>
     )
