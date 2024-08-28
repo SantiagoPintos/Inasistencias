@@ -2,11 +2,9 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { databaseConnector, createDatabaseIfNotExists } from './dbManager/dbConnection'
-import { createData, insertData, getToken } from './dbManager/dbOperator'
+import { createData, insertData, getTokenAndSheetName } from './dbManager/dbOperator'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
-import { extractSpreadsheetId } from './utils/urlParser'
-import { SPREADSHEET_ID } from './../constants/constants'
 
 const logger = new Logger('main.log');
 createDatabaseIfNotExists()
@@ -60,16 +58,13 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  ipcMain.on('send-data', async (_, token: string, url: string) => {
+  ipcMain.on('send-data', async (_, token: string, id: string, sheetName: string) => {
     try{
       logger.log(`Data received in main`)
-      // Assuming this is the url of a sheet: https://docs.google.com/spreadsheets/d/1_LfCQsMJY-7Jd2-Gf6edboZnwFJMC_rmSpPJcZxCtP4/edit#gid=0
-      // we need to extract only the id from the url
-      const id = extractSpreadsheetId(url);
       if(id === null) throw new Error('Something went wrong')
       logger.log(`Id extracted`)
       const db = databaseConnector()
-      await insertData(db, token, id)
+      await insertData(db, token, id, sheetName)
     } catch (err) {
       logger.error('Error saving the token: '+(err as Error).message)
       console.log(err)
@@ -80,10 +75,9 @@ app.whenReady().then(() => {
     try{
       logger.log(`Token requested in main`)
       const db = databaseConnector()
-      const token = await getToken(db)
-      if(token === undefined) return null
-      const RANGE = 'Ingresar datos!A1:K'
-      const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${token}`
+      const dataFromDb = await getTokenAndSheetName(db)
+      if(!dataFromDb) return null
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${dataFromDb.sheetId}/values/${dataFromDb.sheetName}?key=${dataFromDb.token}`
       const response = await fetch(url)
       if(!response.ok) return null
       const data = await response.json()

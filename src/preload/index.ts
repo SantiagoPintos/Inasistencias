@@ -2,8 +2,8 @@ import { contextBridge, ipcRenderer } from 'electron'
 
 // Custom APIs for renderer
 const api = {
-  sendData: async (token: string, url: string) => {
-    ipcRenderer.send('send-data', token, url)
+  sendData: async (token: string, url: string, sheetName: string) => {
+    ipcRenderer.send('send-data', token, url, sheetName)
   },
   getData: () => ipcRenderer.invoke('get-data')
 }
