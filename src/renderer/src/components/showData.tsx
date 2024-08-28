@@ -12,8 +12,8 @@ const ShowData = ({data}) => {
   data = data.values.slice(1)
 
   return (
-    <div className="mt-10 ml-10">
-      <h1 className="text-2xl font-bold text-center my-5">Inasistencias docentes</h1>
+    <div className="mt-5 ml-10">
+      <h1 className="text-2xl font-bold text-center mb-5">Inasistencias docentes</h1>
       <Table>
         <TableHeader>
           <TableRow>
