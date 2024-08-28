@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import { HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Dashboard from './components/Dashboard'
 import AddData from './components/AddData'
-import ShowData from './components/showData'
 
 function App(): JSX.Element {
   const [thereIsData, setThereIsData] = useState<boolean>(true)
@@ -19,22 +20,15 @@ function App(): JSX.Element {
   }, [])
 
   return (
-    <>
-      {thereIsData ? (
-        <div className='w-100 flex'>
-          <div className='w-7/12'>
-              <ShowData data={dataFromDatabase}/>
-          </div>
-          <div className='w-5/12'>
-            <p></p>
-          </div>
-        </div>
-      ) : (
-        <div className='h-screen flex items-center justify-center'>
-            <AddData />
-        </div>
-      )}
-    </>
+    <Router>
+      <Routes>
+        <Route 
+          path="/" 
+          element={thereIsData ? <Dashboard data={dataFromDatabase} /> : <Navigate to="/add-data" />} 
+        />
+        <Route path="/add-data" element={<AddData />} />
+      </Routes>
+    </Router>
   )
 }
 
