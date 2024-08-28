@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import Logger from '../logger/logger';
 
-export const databasePath = path.join(app.getPath("userData"), 'database', 'database.sqlite');
+export const databasePath = path.join(app.getPath("userData"), 'Database', 'database.sqlite');
 const logger = new Logger('dbConnection.log');
 let db: sqlite3.Database;
 
