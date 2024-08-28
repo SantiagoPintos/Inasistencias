@@ -1,9 +1,14 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AddUrl } from './AddUrl'
 import SelectSheetPage from './SelectSheetPage'
 import { Progress } from './ui/Progress'
+import { Alert, AlertDescription, AlertTitle } from "./ui/Alert"
+import { Check } from 'lucide-react'
+
 
 const AddData = () => {
+    const navigate = useNavigate()
     const API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/'
     const [id, setId] = useState<string>('')
     const [names, setNames] = useState<[]>([])
@@ -30,10 +35,14 @@ const AddData = () => {
         setProgress(100)
         setProcessFinished(true)
         await window.api.sendData(token, id, sheet)
+        setTimeout(() => {
+            //delay to show the alert
+            navigate('/')
+        }, 2000)
     }
 
     return (
-        <div className="grid w-full max-w-sm items-center">
+        <div className="h-screen flex items-center justify-center">
             {!processFinished
             ?
                 <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -45,7 +54,13 @@ const AddData = () => {
                 </div>
             :
                 <div>
-                    
+                    <Alert>
+                      <Check className="h-4 w-4" />
+                      <AlertTitle>Datos guardados!</AlertTitle>
+                      <AlertDescription>
+                        La aplicación te redirigirá a la página principal.
+                      </AlertDescription>
+                    </Alert>
                 </div>
             }
         
