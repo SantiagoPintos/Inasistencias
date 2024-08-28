@@ -27,9 +27,9 @@ const AddData = () => {
     }
 
     const sendDataToDatabase = async (sheet: string) => {
+        setProgress(100)
         setProcessFinished(true)
         await window.api.sendData(token, id, sheet)
-        setProgress(100)
     }
 
     return (
@@ -41,13 +41,13 @@ const AddData = () => {
                     ?  <AddUrl assignId={handleIdChange} api_url={API_URL}/>
                     :  <SelectSheetPage sheet_names={names} handle_sheet_name={handleSheetNameChange}/>
                     }
+                    <Progress value={progress} className="mt-3 w-[100%] h-[6px]"/>
                 </div>
             :
                 <div>
                     
                 </div>
             }
-            <Progress value={progress} className="mt-3 w-[100%] h-[6px]"/>
         
         </div>
     )
