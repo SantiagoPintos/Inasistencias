@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { databaseConnector, createDatabaseIfNotExists } from './dbManager/dbConnection'
 import { createData, insertData, getTokenAndSheetName } from './dbManager/dbOperator'
+import { setMainMenu } from './menu/menu'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
 
@@ -29,6 +30,7 @@ function createWindow(): void {
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
     mainWindow.maximize()
+    setMainMenu()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
