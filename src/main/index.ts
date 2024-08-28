@@ -62,7 +62,6 @@ app.whenReady().then(() => {
     try{
       logger.log(`Data received in main`)
       if(id === null) throw new Error('Something went wrong')
-      logger.log(`Id extracted`)
       const db = databaseConnector()
       await insertData(db, token, id, sheetName)
     } catch (err) {
