@@ -7,10 +7,8 @@ function App(): JSX.Element {
   const [dataFromDatabase, setDataFromDatabase] = useState<any>([])
 
   useEffect(() => {
-    console.log('getting data in useEffect')
     const data = async () => {
       const dataFromDb = await window.api.getData()
-      console.log(dataFromDb)
       if(dataFromDb) {
         setThereIsData(true)
         setDataFromDatabase(dataFromDb)
