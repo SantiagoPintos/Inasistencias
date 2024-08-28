@@ -47,7 +47,7 @@ export const getTokenAndSheetName = async (db: Database): Promise<{ token: strin
 
     try {
         return new Promise((resolve, reject) => {
-            db.get(selectData, [], (err, row: { token: string, sheetId: string, sheetName: string }) => {
+            db.get(selectData, [], (err, row: { token: string, url: string, sheetName: string }) => {
                 if (err) {
                     logger.error(`Getting data: ${err.message}`);
                     reject(err);
@@ -55,7 +55,7 @@ export const getTokenAndSheetName = async (db: Database): Promise<{ token: strin
             
                 if (row) {
                     logger.info('Data selected');
-                    resolve({ token: row.token, sheetId: row.sheetId, sheetName: row.sheetName });
+                    resolve({ token: row.token, sheetId: row.url, sheetName: row.sheetName });
                 } else {
                     reject(new Error('Getting data: No data found'));
                 }
