@@ -4,11 +4,11 @@ const logger = new Logger('dbOperator.log');
 
 
 export const createData = (db: Database): void => {
-    const createDataTable = `CREATE TABLE IF NOT EXISTS data (token TEXT NOT NULL, url TEXT NOT NULL, sheetName TEXT NOT NULL PRIMARY KEY(token))`;
+    const createDataTable = `CREATE TABLE IF NOT EXISTS data (token TEXT NOT NULL, url TEXT NOT NULL, sheetName TEXT NOT NULL, PRIMARY KEY(token))`;
     try {
         db.run(createDataTable, (err) => {
             if(err){
-                logger.error(err.message);
+                logger.error(`Creating tables: ${err.message}`);
             }
             logger.info('Data table created');
         });
@@ -21,13 +21,13 @@ export const insertData = async (db: Database, token: string, url: string, sheet
     const deleteData = `DELETE FROM data`;
     const insertData = `INSERT INTO data (token, url, sheetName) VALUES (?, ?, ?)`;
     if(token === '' || url === '' || sheetName === '') {
-        logger.error('Data or url is empty');
+        logger.error('Incomplete data received');
         return;
     }
     try {
         db.run(deleteData, (err) => {
             if(err){
-                logger.error(err.message);
+                logger.error(`Inserting data: ${err.message}`);
             }
             logger.info('Data deleted');
         });
@@ -49,7 +49,7 @@ export const getTokenAndSheetName = async (db: Database): Promise<{ token: strin
         return new Promise((resolve, reject) => {
             db.get(selectData, [], (err, row: { token: string, sheetId: string, sheetName: string }) => {
                 if (err) {
-                    logger.error(err.message);
+                    logger.error(`Getting data: ${err.message}`);
                     reject(err);
                 }
             
@@ -57,7 +57,7 @@ export const getTokenAndSheetName = async (db: Database): Promise<{ token: strin
                     logger.info('Data selected');
                     resolve({ token: row.token, sheetId: row.sheetId, sheetName: row.sheetName });
                 } else {
-                    reject(new Error('No data found'));
+                    reject(new Error('Getting data: No data found'));
                 }
             });
         });
