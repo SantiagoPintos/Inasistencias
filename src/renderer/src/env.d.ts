@@ -4,7 +4,7 @@ declare global {
     interface Window {
       api: {
         sendData: (key: string, url: string, sheetName: string) => Promise<void>;
-        getData: () => Promise<[]>;
+        getData: () => Promise<Object>;
       };
     }
 }
