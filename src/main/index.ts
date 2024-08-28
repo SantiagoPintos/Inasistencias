@@ -72,15 +72,18 @@ app.whenReady().then(() => {
 
   ipcMain.handle('get-data', async () => {
     try{
-      logger.log(`Token requested in main`)
+      logger.log(`Data requested in main`)
       const db = databaseConnector()
       const dataFromDb = await getTokenAndSheetName(db)
       if(!dataFromDb) return null
       const url = `https://sheets.googleapis.com/v4/spreadsheets/${dataFromDb.sheetId}/values/${dataFromDb.sheetName}?key=${dataFromDb.token}`
       const response = await fetch(url)
-      if(!response.ok) return null
+      if(!response.ok) {
+        logger.error('Error getting the data: '+response.statusText)
+        return null
+      }
+      logger.log('Data received from the sheet')
       const data = await response.json()
-
       return data
     } catch (err) {
       logger.error('Error getting the token: '+(err as Error).message)
