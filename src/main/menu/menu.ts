@@ -30,7 +30,7 @@ export const setMainMenu = () => {
             label: 'Configuración',
             submenu: [
                 { 
-                    label: 'Configuración de la base de datos',
+                    label: 'Configuración de la aplicación',
                     click: () => {
                         const activeWindow = BrowserWindow.getFocusedWindow()
                         if(activeWindow) activeWindow.webContents.send('open-settings')
