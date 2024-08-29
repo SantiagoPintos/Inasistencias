@@ -6,6 +6,7 @@ declare global {
         sendData: (key: string, url: string, sheetName: string) => Promise<void>;
         getData: () => Promise<Object>;
         openSettings: (callback: () => void) => void;
+        getLogsFileSize: () => Promise<number | null>;
       };
     }
 }
