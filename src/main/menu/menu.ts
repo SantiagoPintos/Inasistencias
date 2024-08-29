@@ -1,4 +1,4 @@
-import { Menu, app, shell } from "electron"
+import { Menu, app, shell, BrowserWindow } from "electron"
 
 export const setMainMenu = () => {
     const template: Array<object> = [
@@ -32,7 +32,8 @@ export const setMainMenu = () => {
                 { 
                     label: 'Configuración de la base de datos',
                     click: () => {
-                        // TODO: Open a new window with the database configuration
+                        const activeWindow = BrowserWindow.getFocusedWindow()
+                        if(activeWindow) activeWindow.webContents.send('open-settings')
                     }
                 },
                 { role: 'toggleDevTools', label: 'Herramientas de desarrollo' },
