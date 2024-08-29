@@ -6,6 +6,7 @@ import { createData, insertData, getTokenAndSheetName } from './dbManager/dbOper
 import { setMainMenu } from './menu/menu'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
+import { getLogsFileSize } from './logger/loggerManager'
 
 const logger = new Logger('main.log');
 createDatabaseIfNotExists()
@@ -90,6 +91,17 @@ app.whenReady().then(() => {
       return data
     } catch (err) {
       logger.error('Error getting the token: '+(err as Error).message)
+      console.log(err)
+      return null
+    }
+  })
+
+  ipcMain.handle('get-logs-file-size', async () => {
+    try{
+      logger.log(`Logs file size requested in main`)
+      return await getLogsFileSize()
+    } catch (err) {
+      logger.error('Error getting the logs file size: '+(err as Error).message)
       console.log(err)
       return null
     }
