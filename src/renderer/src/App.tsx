@@ -40,8 +40,9 @@ function App(): JSX.Element {
       <Routes>
         <Route 
           path="/" 
-          element={thereIsData ? <Dashboard data={dataFromDatabase} /> : <Navigate to="/add-data" />} 
+          element={thereIsData ? <Navigate to="/dashboard" /> : <Navigate to="/add-data" />} 
         />
+        <Route path="/dashboard" element={<Dashboard data={dataFromDatabase} />} />
         <Route path="/add-data" element={<AddData />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
