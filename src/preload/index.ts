@@ -4,6 +4,7 @@ interface Api {
   sendData: (token: string, url: string, sheetName: string) => void;
   getData: () => Promise<any>;
   openSettings: (callback: () => void) => void;
+  getLogsFileSize: () => Promise<number|null>;
 }
 
 const api: Api = {
@@ -11,7 +12,8 @@ const api: Api = {
     ipcRenderer.send('send-data', token, url, sheetName);
   },
   getData: () => ipcRenderer.invoke('get-data'),
-  openSettings: (callback) => ipcRenderer.on('open-settings', (_event) => callback())
+  openSettings: (callback) => ipcRenderer.on('open-settings', (_event) => callback()),
+  getLogsFileSize: () => ipcRenderer.invoke('get-logs-file-size')
 };
 
 try {
