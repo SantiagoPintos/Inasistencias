@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Separator } from './ui/Separator'
+import { Button } from './ui/Button'
 
 const Settings = () => {
   const [ logsSize, setLogsSize ] = useState<number | null>(null)
+
   useEffect(() => {
     const logsFileSize = async () => {
       const size = await window.api.getLogsFileSize()
@@ -11,6 +13,12 @@ const Settings = () => {
     }
     logsFileSize()
   }, [])
+
+  const handleDeleteClick = async () => {
+    await window.api.clearLogs()
+    const size = await window.api.getLogsFileSize()
+    if(size) setLogsSize(size)
+  }
 
 
   return (
@@ -25,9 +33,12 @@ const Settings = () => {
             <Separator className="my-6" />
             <div className="space-y-0.5">
                 <h2 className="text-2xl font-bold tracking-tight">Logs</h2>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground mb-2">
                     Tamaño de los registros: {logsSize ? Math.round(logsSize / 1024) : 0} KB
                 </p>
+                <Button
+                    onClick={handleDeleteClick}
+                > Eliminar registros </Button>
             </div>
         </div>
     </>

@@ -7,6 +7,7 @@ declare global {
         getData: () => Promise<Object>;
         openSettings: (callback: () => void) => void;
         getLogsFileSize: () => Promise<number | null>;
+        clearLogs: () => Promise<void>;
       };
     }
 }
