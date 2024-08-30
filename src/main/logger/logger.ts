@@ -5,12 +5,16 @@ import path from 'path';
 class Logger {
   private logFilePath: string;
 
-  constructor(logFileName: string) {
+  constructor(logFileName?: string) {
     const logsDir = path.join(app.getPath('userData'), 'Logs');
     if (!fs.existsSync(logsDir)) {
       fs.mkdirSync(logsDir);
     }
-    this.logFilePath = path.join(logsDir, logFileName);
+    if(!logFileName) {
+      this.logFilePath = path.join(logsDir, 'Main.log')
+    } else {
+      this.logFilePath = path.join(logsDir, logFileName);
+    }
   }
 
   log(message: string): void {
