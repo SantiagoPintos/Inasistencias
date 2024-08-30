@@ -25,12 +25,15 @@ const ShowData = ({data}) => {
         </TableHeader>
         <TableBody>
         { data.slice(1).map((item: any[], index: number) => (
-            <TableRow key={index}>
-              <TableCell>{item[0]}</TableCell>
-              <TableCell>{item[1]}</TableCell>
-              <TableCell>{item[2]}</TableCell>
-              <TableCell className="text-right">{item[3]}</TableCell>
-            </TableRow>
+          item.length > 0 
+            ? (
+              <TableRow key={index}>
+                <TableCell>{item[0]}</TableCell>
+                <TableCell>{item[1]}</TableCell>
+                <TableCell>{item[2]}</TableCell>
+                <TableCell className="text-right">{item[3]}</TableCell>
+              </TableRow> ) 
+            : null
           ))}
         </TableBody>
       </Table>
