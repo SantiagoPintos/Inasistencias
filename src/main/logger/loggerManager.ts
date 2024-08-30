@@ -27,3 +27,17 @@ function getFileSize(file: string): Promise<number> {
         });
     });
 }
+
+export async function clearLogs(): Promise<void>{
+    const directoryPath: string = path.join(app.getPath('userData'), 'Logs')
+    const files: string[] = await fs.promises.readdir(directoryPath)
+
+    for (const file of files) {
+        const filePath: string = path.join(directoryPath, file)
+        fs.unlink(filePath, (err) =>{
+            if (err) {
+                console.error(err)
+            }
+        })
+    }
+}
