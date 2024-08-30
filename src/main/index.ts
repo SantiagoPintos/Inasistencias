@@ -6,7 +6,7 @@ import { createData, insertData, getTokenAndSheetName } from './dbManager/dbOper
 import { setMainMenu } from './menu/menu'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
-import { getLogsFileSize } from './logger/loggerManager'
+import { getLogsFileSize, clearLogs } from './logger/loggerManager'
 
 const logger = new Logger('main.log');
 createDatabaseIfNotExists()
@@ -102,6 +102,17 @@ app.whenReady().then(() => {
       return await getLogsFileSize()
     } catch (err) {
       logger.error('Error getting the logs file size: '+(err as Error).message)
+      console.log(err)
+      return null
+    }
+  })
+
+  ipcMain.handle('delete-logs', async () => {
+    try{
+      logger.log(`Logs deleted in main`)
+      return await clearLogs()
+    } catch (err) {
+      logger.error('Error deleting the logs: '+(err as Error).message)
       console.log(err)
       return null
     }
