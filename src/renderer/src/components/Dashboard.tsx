@@ -1,4 +1,5 @@
 import ShowData from "./showData"
+import ShowImages from "./ShowImages"
 import {
   ResizableHandle,
   ResizablePanel,
@@ -19,8 +20,8 @@ const Dashboard = ({data}) => {
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={35}>
-        <div className=''>
-          <p></p>
+        <div className='h-screen flex items-center justify-center'>
+          <ShowImages />
         </div>
       </ResizablePanel>
     </ResizablePanelGroup>
