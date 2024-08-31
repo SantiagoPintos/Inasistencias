@@ -1,15 +1,29 @@
 import ShowData from "./showData"
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "./ui/ResizablePanel"
+
 
 const Dashboard = ({data}) => {
   return (
-    <div className='w-100 flex'>
-        <div className='w-7/12'>
+    <ResizablePanelGroup
+      direction="horizontal"
+      className="max-w max-h"
+    >
+      <ResizablePanel defaultSize={65}>
+        <div className=''>
             <ShowData data={data}/>
         </div>
-        <div className='w-5/12'>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize={35}>
+        <div className=''>
           <p></p>
         </div>
-    </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
   )
 }
 
