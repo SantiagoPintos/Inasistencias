@@ -2,11 +2,12 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { databaseConnector, createDatabaseIfNotExists } from './dbManager/dbConnection'
-import { createData, insertData, getTokenAndSheetName } from './dbManager/dbOperator'
+import { createData, insertData, getTokenAndSheetName, insertImage } from './dbManager/dbOperator'
 import { setMainMenu } from './menu/menu'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
 import { getLogsFileSize, clearLogs } from './logger/loggerManager'
+import { saveImage } from './imgManager/imgManager'
 
 const logger = new Logger('main.log');
 createDatabaseIfNotExists()
@@ -115,6 +116,18 @@ app.whenReady().then(() => {
       logger.error('Error deleting the logs: '+(err as Error).message)
       console.log(err)
       return null
+    }
+  })
+
+  ipcMain.on('save-image-url', async (_, url: string) => {
+    try{
+      logger.log(`Image url received in main`)
+      const db = databaseConnector()
+      const imgPath = await saveImage(url)
+      await insertImage(db, imgPath)
+    } catch (err) {
+      logger.error('Error saving the image url: '+(err as Error).message)
+      console.log(err)
     }
   })
 
