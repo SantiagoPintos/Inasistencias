@@ -36,10 +36,8 @@ const ShowImages = () => {
       return;
     }
   
-    console.log(activeTab)
     try {
       if (activeTab === "url") {
-        console.log('entrando a url')
         if (!url.current?.value) {
           setErrorMessage("La URL no es válida");
           throw new Error("URL is required");
