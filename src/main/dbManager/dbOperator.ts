@@ -99,3 +99,28 @@ export const insertImage = async (db: Database, url: string): Promise<void> => {
     }
 }
 
+export const getImage = async (db: Database): Promise<string|null> => {
+    const selectImage = `SELECT url FROM image`;
+
+    try {
+        return new Promise((resolve, reject) => {
+            db.get(selectImage, [], (err, row: { url: string }) => {
+                if (err) {
+                    logger.error(`Getting image: ${err.message}`);
+                    reject(err);
+                }
+            
+                if (row) {
+                    logger.info('Image selected');
+                    resolve(row.url);
+                } else {
+                    resolve(null);
+                }
+            });
+        });
+    } catch (err) {
+        logger.error((err as Error).message);
+        throw err;
+    }
+}
+
