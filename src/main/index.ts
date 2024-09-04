@@ -1,8 +1,10 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, protocol, net } from 'electron'
+import url from 'url'
 import { join } from 'path'
+import path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { databaseConnector, createDatabaseIfNotExists } from './dbManager/dbConnection'
-import { createData, insertData, getTokenAndSheetName, insertImage } from './dbManager/dbOperator'
+import { createData, insertData, getTokenAndSheetName, insertImage, getImage } from './dbManager/dbOperator'
 import { setMainMenu } from './menu/menu'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
@@ -53,6 +55,14 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  logger.log('App ready')
+  // Register the 'inasistencias' protocol
+  protocol.handle('inasistencias', (req) => {
+    const filePath = req.url.replace('inasistencias://', '');
+    const fullFilePath = path.join(app.getPath('userData'), 'LocalImages', filePath);
+    return net.fetch(url.pathToFileURL(fullFilePath).toString())
+  })
+
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.isbo.inasistencias')
 
@@ -128,6 +138,18 @@ app.whenReady().then(() => {
     } catch (err) {
       logger.error('Error saving the image url: '+(err as Error).message)
       console.log(err)
+    }
+  })
+
+  ipcMain.handle('get-image', async () => {
+    try{
+      logger.log(`Image requested in main`)
+      const db = databaseConnector()
+      return await getImage(db)
+    } catch (err) {
+      logger.error('Error getting the image: '+(err as Error).message)
+      console.log(err)
+      return null
     }
   })
 
