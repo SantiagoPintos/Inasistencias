@@ -9,6 +9,7 @@ declare global {
         getLogsFileSize: () => Promise<number | null>;
         clearLogs: () => Promise<void>;
         sendImgUrl: (url: string) => Promise<void>;
+        getImgUrl: () => Promise<string | null>;
       };
     }
 }
