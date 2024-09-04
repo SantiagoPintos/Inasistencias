@@ -1,5 +1,5 @@
 import ShowData from "./showData"
-import ShowImages from "./ShowImages"
+import ShowImages from "./ImageManager"
 import {
   ResizableHandle,
   ResizablePanel,
