@@ -1,4 +1,5 @@
 import { app } from 'electron';
+import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 import * as https from 'https'
@@ -16,11 +17,12 @@ const saveImageFromUrl = async (imageUrl: string): Promise<string> => {
                 reject(new Error('Imagen no encontrada'))
                 return
             }
-            const fileStream = fs.createWriteStream(path.join(imgsDir, `${Date.now()}.jpg`))
+            const fileName = `${Date.now()}.jpg`
+            const fileStream = fs.createWriteStream(path.join(imgsDir, fileName))
             res.pipe(fileStream)
             fileStream.on('finish', () => {
                 fileStream.close()
-                resolve(fileStream.path.toString())
+                resolve(fileName)
             })       
         })
         .on('error', (err) => {
@@ -37,8 +39,16 @@ const saveImageFromLocalFile = async (filePath: string): Promise<string> => {
     const fileName = path.basename(filePath)
     const newFilePath = path.join(imgsDir, fileName)
     fs.copyFileSync(filePath, newFilePath)
-    return newFilePath
+    const name = hashUrl(newFilePath)
+    return name
 }
+
+const hashUrl = (url: string): string => {
+    const extension = path.extname(url);
+    const name = crypto.createHash('md5').update(url).digest('hex') + extension;
+    return name;
+}
+
 
 export const saveImage = async (imgPath: string): Promise<string> => {
     if(!imgPath || imgPath.trim() === '') throw new Error('Ruta no válida')
