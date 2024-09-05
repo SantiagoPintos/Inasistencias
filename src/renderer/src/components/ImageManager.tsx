@@ -4,30 +4,34 @@ import { RenderImages } from "./RenderImages"
 
 
 const ShowImages = () => {
-
   const [thereIsImage, setThereIsImage] = useState(false)
   const [imgUrl, setImgUrl] = useState<string>('')
 
   useEffect(() => {
-    window.api.getImgUrl()
-      .then((url) => {
-        if (url) {
-          setImgUrl(url)
-          setThereIsImage(true)
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    fetchImageUrl();
   }, [])
+
+  const fetchImageUrl = async () => {
+    try {
+      const url = await window.api.getImgUrl()
+      if (url) {
+        setImgUrl(url)
+        setThereIsImage(true)
+      } else {
+        setThereIsImage(false)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <>
       { thereIsImage 
       ? 
-        <RenderImages url={imgUrl} />
+        <RenderImages url={imgUrl} onDelete={fetchImageUrl} />
       :
-        <AddImageDialog />
+        <AddImageDialog onInsert={fetchImageUrl} />
       }
     </>
   )
