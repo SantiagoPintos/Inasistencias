@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 import * as https from 'https'
+import sharp from 'sharp';
 
 const imgsDir = path.join(app.getPath('userData'), 'LocalImages');
 
@@ -49,9 +50,23 @@ const hashUrl = (url: string): string => {
     return name;
 }
 
+const isImage = async (imgPath: string): Promise<boolean> => {
+    try {
+        await sharp(imgPath).metadata()
+        return true
+    } catch (err) {
+        return false
+    }
+}
+
 
 export const saveImage = async (imgPath: string): Promise<string> => {
     if(!imgPath || imgPath.trim() === '') throw new Error('Ruta no válida')
+
+    if (!await isImage(imgPath)) {
+        throw new Error('El archivo no es una imagen válida')
+    }
+
     if (imgPath.startsWith('http')) {
         return saveImageFromUrl(imgPath)
     } else {
