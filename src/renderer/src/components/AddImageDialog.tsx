@@ -24,9 +24,10 @@ import {
 import { Check, AlertCircle } from "lucide-react"
 
 
-const AddImageDialog = () => {
+const AddImageDialog = ({onInsert}) => {
     const url = useRef<HTMLInputElement>(null)
     const filePath = useRef<HTMLInputElement>(null)
+    const [showDialog, setShowDialog] = useState(false)
     const [showSuccessAlert, setShowSuccessAlert] = useState(false)
     const [showErrorAlert, setShowErrorAlert] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
@@ -59,6 +60,10 @@ const AddImageDialog = () => {
             await window.api.sendImgUrl(file.path);
           }
           handleSuccessAlert();
+          setShowDialog(false);
+          setTimeout(() => {
+            onInsert();
+          }, 1000);
         } catch (error) {
           handleErrorAlert();
         }
@@ -78,78 +83,82 @@ const AddImageDialog = () => {
         }, 3000)
       }
 
+      const handleOpenDialog = () => {
+        setShowDialog(true)
+      }
+
 
     return (
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline">Agregar imagen para mostrar</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Agregar imagen</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <Tabs defaultValue="url">
-              <TabsList>
-                <TabsTrigger value="url">URL</TabsTrigger>
-                <TabsTrigger value="local">Archivo local</TabsTrigger>
-              </TabsList>
-              <TabsContent value="url">
-                <Card>
-                  <CardHeader>
-                    <CardDescription>
-                      Pegue la URL de la imagen.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    <div className="space-y-1">
-                      <Input id="username" defaultValue="" ref={url} />
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button onClick={()=>handleSave("url")}>Guardar</Button>
-                  </CardFooter>
-                </Card>
-              </TabsContent>
-              <TabsContent value="local">
-                <Card>
-                  <CardHeader>
-                    <CardDescription>
-                      Seleccione la imagen de su equipo.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    <div className="space-y-1">
-                      <Input id="username" type="file" defaultValue="" ref={filePath}/>
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button onClick={()=>handleSave("file")}>Guardar</Button>
-                  </CardFooter>
-                </Card>
-              </TabsContent>
-            </Tabs>
-            {showSuccessAlert && (
-              <Alert>
-                <Check className="h-4 w-4" />
-                <AlertTitle>Guardado!</AlertTitle>
-                <AlertDescription>
-                  La imagen se guardó correctamente.
-                </AlertDescription>
-              </Alert>
-            )}
-            {showErrorAlert && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>
-                  {errorMessage}.
-                </AlertDescription>
-              </Alert>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+      <>
+        <Button variant="outline" onClick={handleOpenDialog}>Agregar imagen para mostrar</Button>
+        <Dialog open={showDialog}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Agregar imagen</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <Tabs defaultValue="url">
+                <TabsList>
+                  <TabsTrigger value="url">URL</TabsTrigger>
+                  <TabsTrigger value="local">Archivo local</TabsTrigger>
+                </TabsList>
+                <TabsContent value="url">
+                  <Card>
+                    <CardHeader>
+                      <CardDescription>
+                        Pegue la URL de la imagen.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="space-y-1">
+                        <Input id="username" defaultValue="" ref={url} />
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button onClick={()=>handleSave("url")}>Guardar</Button>
+                    </CardFooter>
+                  </Card>
+                </TabsContent>
+                <TabsContent value="local">
+                  <Card>
+                    <CardHeader>
+                      <CardDescription>
+                        Seleccione la imagen de su equipo.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="space-y-1">
+                        <Input id="username" type="file" defaultValue="" ref={filePath}/>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button onClick={()=>handleSave("file")}>Guardar</Button>
+                    </CardFooter>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+              {showSuccessAlert && (
+                <Alert>
+                  <Check className="h-4 w-4" />
+                  <AlertTitle>Guardado!</AlertTitle>
+                  <AlertDescription>
+                    La imagen se guardó correctamente.
+                  </AlertDescription>
+                </Alert>
+              )}
+              {showErrorAlert && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>
+                    {errorMessage}.
+                  </AlertDescription>
+                </Alert>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
+      </>
     )
 }
 
