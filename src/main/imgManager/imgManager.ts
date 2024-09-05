@@ -36,11 +36,11 @@ const saveImageFromLocalFile = async (filePath: string): Promise<string> => {
         fs.mkdirSync(imgsDir);
     }
 
-    const fileName = path.basename(filePath)
+    const name = path.basename(filePath)
+    const fileName = hashUrl(name)
     const newFilePath = path.join(imgsDir, fileName)
     fs.copyFileSync(filePath, newFilePath)
-    const name = hashUrl(newFilePath)
-    return name
+    return fileName
 }
 
 const hashUrl = (url: string): string => {
