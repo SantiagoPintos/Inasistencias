@@ -4,7 +4,7 @@ import { join } from 'path'
 import path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { databaseConnector, createDatabaseIfNotExists } from './dbManager/dbConnection'
-import { createData, insertData, getTokenAndSheetName, insertImage, getImage } from './dbManager/dbOperator'
+import { createData, insertData, getTokenAndSheetName, insertImage, getImage, deleteImage } from './dbManager/dbOperator'
 import { setMainMenu } from './menu/menu'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
@@ -150,6 +150,19 @@ app.whenReady().then(() => {
       logger.error('Error getting the image: '+(err as Error).message)
       console.log(err)
       return null
+    }
+  })
+
+  ipcMain.handle('delete-image', async () => {
+    try{
+      logger.log(`Image deleted in main`)
+      const db = databaseConnector()
+      await deleteImage(db)
+      return true
+    } catch (err) {
+      logger.error('Error deleting the image: '+(err as Error).message)
+      console.log(err)
+      return false
     }
   })
 
