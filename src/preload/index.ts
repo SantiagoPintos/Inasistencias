@@ -8,6 +8,7 @@ interface Api {
   clearLogs: () => Promise<void>;
   sendImgUrl: (url: string) => void;
   getImgUrl: () => Promise<string|null>;
+  deleteImage: () => Promise<boolean>;
 }
 
 const api: Api = {
@@ -19,7 +20,8 @@ const api: Api = {
   getLogsFileSize: () => ipcRenderer.invoke('get-logs-file-size'),
   clearLogs: () => ipcRenderer.invoke('delete-logs'),
   sendImgUrl: (url) => ipcRenderer.send('save-image-url', url),
-  getImgUrl: () => ipcRenderer.invoke('get-image')
+  getImgUrl: () => ipcRenderer.invoke('get-image'),
+  deleteImage: () => ipcRenderer.invoke('delete-image'),
 };
 
 try {
