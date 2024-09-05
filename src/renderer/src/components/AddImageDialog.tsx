@@ -90,7 +90,7 @@ const AddImageDialog = ({onInsert}) => {
     return (
       <>
         <Button variant="outline" onClick={handleOpenDialog}>Agregar imagen para mostrar</Button>
-        <Dialog open={showDialog}>
+        <Dialog open={showDialog} onOpenChange={setShowDialog}>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Agregar imagen</DialogTitle>
