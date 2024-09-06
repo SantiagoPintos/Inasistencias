@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom"
 import ShowData from "./showData"
 import ShowImages from "./ImageManager"
 import {
@@ -7,7 +8,10 @@ import {
 } from "./ui/ResizablePanel"
 
 
-const Dashboard = ({data}) => {
+const Dashboard = () => {
+  const location = useLocation()
+  const data = location.state
+  
   return (
     <ResizablePanelGroup
       direction="horizontal"
