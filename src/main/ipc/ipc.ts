@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 import { databaseConnector } from '../dbManager/dbConnection'
-import { insertData, getTokenAndSheetName, insertImage, getImage, deleteImage } from '../dbManager/dbOperator'
+import { insertData, insertImage, getImage, deleteImage } from '../dbManager/dbOperator'
 import { getLogsFileSize, clearLogs } from './../logger/loggerManager'
 import { saveImage } from './../imgManager/imgManager'
 import Logger from '../logger/logger'
@@ -23,10 +23,7 @@ export const ipcMainEvents = () => {
 
     ipcMain.handle('get-data', async () => {
       try{
-        const db = databaseConnector()
-        const dataFromDb = await getTokenAndSheetName(db)
-        if(dataFromDb.token === undefined || dataFromDb.token === null) return null
-        return await fetchData(dataFromDb)
+        return await fetchData()
       } catch (err) {
         logger.error('Error getting the token: '+(err as Error).message)
         console.log(err)
