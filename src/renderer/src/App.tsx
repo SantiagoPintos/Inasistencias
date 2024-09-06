@@ -18,7 +18,7 @@ function App(): JSX.Element {
   return (
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard data={undefined} />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/add-data" element={<AddData />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
