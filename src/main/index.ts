@@ -9,11 +9,13 @@ import { setMainMenu } from './menu/menu'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
 import { ipcMainEvents } from './ipc/ipc'
+import { fetchData } from './net/fetchData'
 
 const logger = new Logger('main.log');
 createDatabaseIfNotExists()
 const db = databaseConnector()
 createData(db)
+export let cachedData: Object | null = null;
 
 function createWindow(): void {
   // Create the browser window.
@@ -55,6 +57,22 @@ function createWindow(): void {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   logger.log('App ready')
+
+  //fetch data from google sheets every 5 minutes and notify the renderer
+  setInterval(async () => {
+    try{
+      const data = await fetchData()
+      if(data){
+        cachedData = data
+        BrowserWindow.getAllWindows().forEach((win) => {
+          win.webContents.send('data-update', data)
+        })
+      }
+    } catch (err) {
+      logger.error('Error fetching data: '+(err as Error).message)
+    }
+  }, 300000)  
+
   // Register the 'inasistencias' protocol
   protocol.handle('inasistencias', (req) => {
     const filePath = req.url.replace('inasistencias://', '');
