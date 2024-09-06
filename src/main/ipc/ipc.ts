@@ -23,11 +23,10 @@ export const ipcMainEvents = () => {
 
     ipcMain.handle('get-data', async () => {
       try{
-        logger.log(`Data requested in main`)
         const db = databaseConnector()
         const dataFromDb = await getTokenAndSheetName(db)
         if(dataFromDb.token === undefined || dataFromDb.token === null) return null
-        return fetchData(dataFromDb)
+        return await fetchData(dataFromDb)
       } catch (err) {
         logger.error('Error getting the token: '+(err as Error).message)
         console.log(err)
