@@ -13,6 +13,10 @@ function App(): JSX.Element {
       navigate('/settings')
     })
 
+    window.api.dataUpdate((data: DataFromApi) => {
+      navigate('/', { state: { data: data.values } })
+    })
+
   }, [])
 
   return (
