@@ -4,6 +4,7 @@ import { insertData, getTokenAndSheetName, insertImage, getImage, deleteImage } 
 import { getLogsFileSize, clearLogs } from './../logger/loggerManager'
 import { saveImage } from './../imgManager/imgManager'
 import Logger from '../logger/logger'
+import { fetchData } from '../net/fetchData'
 
 const logger = new Logger();
 
@@ -25,16 +26,8 @@ export const ipcMainEvents = () => {
         logger.log(`Data requested in main`)
         const db = databaseConnector()
         const dataFromDb = await getTokenAndSheetName(db)
-        if(!dataFromDb) return null
-        const url = `https://sheets.googleapis.com/v4/spreadsheets/${dataFromDb.sheetId}/values/${dataFromDb.sheetName}?key=${dataFromDb.token}`
-        const response = await fetch(url)
-        if(!response.ok) {
-          logger.error('Error getting the data: '+response.statusText)
-          return null
-        }
-        logger.log('Data received from the sheet')
-        const data = await response.json()
-        return data
+        if(dataFromDb.token === undefined || dataFromDb.token === null) return null
+        return fetchData(dataFromDb)
       } catch (err) {
         logger.error('Error getting the token: '+(err as Error).message)
         console.log(err)
