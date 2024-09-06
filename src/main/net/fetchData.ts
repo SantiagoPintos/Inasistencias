@@ -23,7 +23,7 @@ export function fetchData(data: dataFromDb) {
         }
     })
     .then(data => {
-        return data.json()
+        return data
     })
     .catch(err => {
         logger.error('Error fetching the data')
