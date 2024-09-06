@@ -8,7 +8,7 @@ import {
   } from "@renderer/components/ui/Table"
 
 const ShowData = ({data}) => {
-  if(data.length === 0) return null
+  if(!data || data.length === 0) return null
   data = data.values.slice(1)
 
   return (
