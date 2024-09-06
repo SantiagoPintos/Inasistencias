@@ -15,18 +15,19 @@ function App(): JSX.Element {
       navigate('/settings')
     })
 
-    const data = async () => {
-      const dataFromDb = await window.api.getData()
-      if(dataFromDb) {
-        setThereIsData(true)
-        setDataFromDatabase(dataFromDb)
-      } else {
-        setThereIsData(false)
-      }
-    }
-
-    data()
+    fetchData()
   }, [])
+
+
+  const fetchData = async () => {
+    const dataFromDb = await window.api.getData()
+    if(dataFromDb) {
+      setThereIsData(true)
+      setDataFromDatabase(dataFromDb)
+    } else {
+      setThereIsData(false)
+    }
+  }
 
   if (thereIsData === null) {
     return (
