@@ -5,6 +5,7 @@ declare global {
     api: {
       sendData: (key: string, url: string, sheetName: string) => Promise<void>;
       getData: () => Promise<DataFromApi>;
+      dataUpdate: (callback: (data: DataFromApi) => void) => void;
       openSettings: (callback: () => void) => void;
       getLogsFileSize: () => Promise<number | null>;
       clearLogs: () => Promise<void>;
