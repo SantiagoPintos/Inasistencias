@@ -1,11 +1,13 @@
 import { databaseConnector } from './../dbManager/dbConnection' 
 import { getTokenAndSheetName } from './../dbManager/dbOperator'
-import { cachedData } from '..'
 
-export async function fetchData(): Promise<Object|null> {
-    //if data is already cached, return it 
-    if(cachedData !== null) return cachedData
-    
+interface DataFromApi {
+    range: string;
+    majorDimension: string;
+    values: string[][];
+}
+
+export async function fetchData(): Promise<DataFromApi|null> {    
     const db = databaseConnector()
     const dataFromDb = await getTokenAndSheetName(db)
     if(dataFromDb.token === undefined || dataFromDb.token === null) {
