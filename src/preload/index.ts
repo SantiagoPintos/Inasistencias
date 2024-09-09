@@ -3,13 +3,19 @@ import { contextBridge, ipcRenderer } from 'electron'
 interface Api {
   sendData: (token: string, url: string, sheetName: string) => void;
   getData: () => Promise<any>;
-  dataUpdate: (callback: (data: any) => void) => void;
+  dataUpdate: (callback: (data: DataFromApi) => void) => void;
   openSettings: (callback: () => void) => void;
   getLogsFileSize: () => Promise<number|null>;
   clearLogs: () => Promise<void>;
   sendImgUrl: (url: string) => void;
   getImgUrl: () => Promise<string|null>;
   deleteImage: () => Promise<boolean>;
+}
+
+interface DataFromApi {
+  range: string;
+  majorDimension: string;
+  values: string[][];
 }
 
 const api: Api = {
