@@ -15,7 +15,6 @@ const logger = new Logger('main.log');
 createDatabaseIfNotExists()
 const db = databaseConnector()
 createData(db)
-export let cachedData: Object | null = null;
 
 function createWindow(): void {
   // Create the browser window.
@@ -63,7 +62,6 @@ app.whenReady().then(() => {
     try{
       const data = await fetchData()
       if(data){
-        cachedData = data
         BrowserWindow.getAllWindows().forEach((win) => {
           win.webContents.send('data-update', data)
         })
