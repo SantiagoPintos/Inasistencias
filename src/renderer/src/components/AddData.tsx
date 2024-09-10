@@ -26,7 +26,6 @@ const AddData = () => {
     }
 
     const handleSheetNameChange = (sheet_name: string) => {
-        setProgress(66)
         sendDataToDatabase(sheet_name)
     }
 
