@@ -14,7 +14,7 @@ function App(): JSX.Element {
     })
 
     window.api.dataUpdate((data: DataFromApi) => {
-      navigate('/dashboard', { state: { data: data.values } })
+      navigate('/dashboard', { state: data })
     })
 
   }, [])
