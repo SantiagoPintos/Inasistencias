@@ -4,7 +4,9 @@ import fs from 'fs';
 import path from 'path';
 import * as https from 'https'
 import sharp from 'sharp';
+import Logger from '../logger/logger';
 
+const logger = new Logger();
 const imgsDir = path.join(app.getPath('userData'), 'LocalImages');
 
 const saveImageFromUrl = async (imageUrl: string): Promise<string> => {
@@ -15,6 +17,7 @@ const saveImageFromUrl = async (imageUrl: string): Promise<string> => {
     return new Promise((resolve, reject) => {
         https.get(imageUrl, (res)=> {
             if(res.statusCode !== 200) {
+                logger.error(`Error al descargar la imagen: ${res.statusMessage}`)
                 reject(new Error('Imagen no encontrada'))
                 return
             }
