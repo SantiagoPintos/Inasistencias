@@ -29,7 +29,6 @@ function createWindow(): void {
       sandbox: false
     }
   })
-  logger.log('Window created')
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
@@ -55,7 +54,6 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  logger.log('App ready')
 
   //fetch data from google sheets every 5 minutes and notify the renderer
   setInterval(async () => {
