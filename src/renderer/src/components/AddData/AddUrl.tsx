@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Button } from './ui/Button'
-import { Input } from './ui/Input'
-import { Label } from './ui/Label'
+import { Button } from '../ui/Button'
+import { Input } from '../ui/Input'
+import { Label } from '../ui/Label'
 import { AlertCircle } from "lucide-react"
-import { Alert, AlertDescription, AlertTitle } from "./ui/Alert"
+import { Alert, AlertDescription, AlertTitle } from "../ui/Alert"
 
 
 export const AddUrl = ({assignId, api_url}) => {

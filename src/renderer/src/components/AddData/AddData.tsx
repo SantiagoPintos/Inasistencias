@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AddUrl } from './AddUrl'
-import SelectSheetPage from './SelectSheetPage'
-import { Progress } from './ui/Progress'
-import { Alert, AlertDescription, AlertTitle } from "./ui/Alert"
+import SelectSheetPage from '../SelectSheetPage'
+import { Progress } from '../ui/Progress'
+import { Alert, AlertDescription, AlertTitle } from "../ui/Alert"
 import { Check } from 'lucide-react'
 
 
