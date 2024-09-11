@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import Dashboard from './components/Dashboard'
+import Dashboard from './components/Dashboard/Dashboard'
 import AddData from './components/AddData/AddData'
 import Settings from './components/Settings';
 import Home from './components/Home'
