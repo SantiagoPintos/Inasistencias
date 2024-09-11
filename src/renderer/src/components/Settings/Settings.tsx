@@ -17,7 +17,7 @@ const Settings = () => {
   const handleDeleteClick = async () => {
     await window.api.clearLogs()
     const size = await window.api.getLogsFileSize()
-    if(size) setLogsSize(size)
+    if(size) setLogsSize(Math.round(size / 1024))
   }
 
 
@@ -34,7 +34,7 @@ const Settings = () => {
             <div className="space-y-0.5">
                 <h2 className="text-2xl font-bold tracking-tight">Logs</h2>
                 <p className="text-muted-foreground mb-2">
-                    Tamaño de los registros: {logsSize ? Math.round(logsSize / 1024) : 0} KB
+                    Tamaño de los registros: {logsSize} KB
                 </p>
                 <Button
                     onClick={handleDeleteClick}
