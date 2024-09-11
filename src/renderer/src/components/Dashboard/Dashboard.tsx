@@ -5,7 +5,7 @@ import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "./ui/ResizablePanel"
+} from "./../ui/ResizablePanel"
 
 
 const Dashboard = () => {

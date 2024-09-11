@@ -1,25 +1,25 @@
 import { useRef, useState } from "react"
-import { Button } from "./ui/Button"
+import { Button } from "./../ui/Button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "./ui/Dialog"
+} from "./../ui/Dialog"
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-} from "./ui/Card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/Tabs"
-import { Input } from "./ui/Input"
+} from "./../ui/Card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./../ui/Tabs"
+import { Input } from "./../ui/Input"
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "./ui/Alert"
+} from "./../ui/Alert"
 import { Check, AlertCircle } from "lucide-react"
 
 

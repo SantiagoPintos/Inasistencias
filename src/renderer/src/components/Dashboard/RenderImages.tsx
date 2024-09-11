@@ -1,11 +1,11 @@
 import { useState } from "react"
-import { Button } from "./ui/Button"
+import { Button } from "./../ui/Button"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./ui/Tooltip"
+} from "./../ui/Tooltip"
 import {
   Dialog,
   DialogContent,
@@ -13,12 +13,12 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "./ui/Dialog"
+} from "./../ui/Dialog"
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "./ui/Alert"
+} from "./../ui/Alert"
 
 
 export const RenderImages = ({url, onDelete}) => {
