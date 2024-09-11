@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Separator } from '../ui/Separator'
-import { Button } from '../ui/Button'
+import { Separator } from '@renderer/components/ui/Separator'
+import { Button } from '@renderer/components/ui/Button'
 
 const Settings = () => {
   const navigate = useNavigate()
