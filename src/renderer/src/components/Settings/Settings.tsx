@@ -9,7 +9,6 @@ const Settings = () => {
     const logsFileSize = async () => {
       const size = await window.api.getLogsFileSize()
       if(size) setLogsSize(size)
-      console.log(size)
     }
     logsFileSize()
   }, [])
