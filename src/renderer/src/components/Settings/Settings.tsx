@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Separator } from '../ui/Separator'
 import { Button } from '../ui/Button'
 
 const Settings = () => {
+  const navigate = useNavigate()
   const [ logsSize, setLogsSize ] = useState<number | null>(null)
 
   useEffect(() => {
@@ -19,6 +21,9 @@ const Settings = () => {
     if(size) setLogsSize(Math.round(size / 1024))
   }
 
+  const handleGoBack = () => {
+    navigate('/')
+  }
 
   return (
     <>
@@ -38,6 +43,13 @@ const Settings = () => {
                 <Button
                     onClick={handleDeleteClick}
                 > Eliminar registros </Button>
+            </div>
+            <Separator className="my-6" />
+            <div className="space-y-0.5">
+                <h2 className="text-2xl font-bold tracking-tight">Volver atrás</h2>
+                <Button
+                    onClick={handleGoBack}
+                > Volver</Button>
             </div>
         </div>
     </>
