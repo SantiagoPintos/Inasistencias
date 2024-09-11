@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Separator } from './ui/Separator'
-import { Button } from './ui/Button'
+import { Separator } from '../ui/Separator'
+import { Button } from '../ui/Button'
 
 const Settings = () => {
   const [ logsSize, setLogsSize ] = useState<number | null>(null)
