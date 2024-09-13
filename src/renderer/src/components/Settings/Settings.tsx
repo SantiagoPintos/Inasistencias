@@ -25,7 +25,7 @@ const Settings = () => {
   const [ logsSize, setLogsSize ] = useState<number | null>(null)
   const [ showConfirmation, setShowConfirmation ] = useState(false)
   const [ alertVariant, setAlertVariant ] = useState<'default' | 'destructive'>('default')
-  const [ alertTitle, setAlertTitle ] = useState<'Error'|'Correcto'>('Error')
+  const [ alertTitle, setAlertTitle ] = useState<'Error'|'Correcto'>('Correcto')
   const [ alertMessage, setAlertMessage ] = useState<string>('')
   const [ alertIcon, setAlertIcon] = useState<React.ReactNode>(<Check />)
 
@@ -51,9 +51,6 @@ const Settings = () => {
     const result = await window.api.deleteAllData()
     setShowConfirmation(true)
     if(result){
-      setAlertVariant('default')
-      setAlertTitle('Correcto')
-      setAlertIcon(<Check />)
       setAlertMessage('Datos eliminados correctamente')
     } else {
       setAlertVariant('destructive')
