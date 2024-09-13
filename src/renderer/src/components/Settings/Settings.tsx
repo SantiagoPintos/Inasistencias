@@ -14,7 +14,7 @@ import {
   AlertDialogTrigger
 } from '@renderer/components/ui/Alert-dialog'
 import { Alert, AlertDescription, AlertTitle } from '@renderer/components/ui/Alert'
-import { Check, AlertCircle } from 'lucide-react'
+import { Check, AlertCircle, CircleArrowLeft } from 'lucide-react'
 
 const Settings = () => {
   const navigate = useNavigate()
@@ -69,11 +69,14 @@ const Settings = () => {
             <AlertDescription>{alertMessage}</AlertDescription>
           </Alert>
         )}
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Configuración</h2>
-          <p className="text-muted-foreground">
-            Administre las diferentes características de la aplicación.
-          </p>
+        <div className="space-y-0.5 flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight">Configuración</h2>
+            <p className="text-muted-foreground">
+              Administre las diferentes características de la aplicación.
+            </p>
+          </div>
+          <Button onClick={handleGoBack}><CircleArrowLeft className='mr-2'/>Volver</Button>
         </div>
         <Separator className="my-6" />
         <div className="space-y-0.5">
@@ -104,11 +107,6 @@ const Settings = () => {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-        </div>
-        <Separator className="my-6" />
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Volver atrás</h2>
-          <Button onClick={handleGoBack}> Volver</Button>
         </div>
       </div>
     </>
