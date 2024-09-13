@@ -1,6 +1,6 @@
-import  { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { LoadingSpinner } from './ui/Loading-spinner';
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { LoadingSpinner } from './ui/Loading-spinner'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -12,7 +12,7 @@ const Home = () => {
 
   const fetchData = async () => {
     const data: DataFromApi = await window.api.getData()
-    if(data){
+    if (data) {
       setLoading(false)
       navigate('/dashboard', { state: data })
     } else {

@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import Dashboard from './components/Dashboard/Dashboard'
 import AddData from './components/AddData/AddData'
-import Settings from './components/Settings/Settings';
+import Settings from './components/Settings/Settings'
 import Home from './components/Home'
 
 function App(): JSX.Element {
@@ -16,16 +16,15 @@ function App(): JSX.Element {
     window.api.dataUpdate((data: DataFromApi) => {
       navigate('/dashboard', { state: data })
     })
-
   }, [])
 
   return (
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/add-data" element={<AddData />} />
-        <Route path="/settings" element={<Settings />} />
-      </Routes>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/add-data" element={<AddData />} />
+      <Route path="/settings" element={<Settings />} />
+    </Routes>
   )
 }
 

@@ -7,8 +7,8 @@ import '@fontsource/geist-sans'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-      <Router>
-        <App />
-      </Router>
+    <Router>
+      <App />
+    </Router>
   </React.StrictMode>
 )

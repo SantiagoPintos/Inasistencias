@@ -1,14 +1,14 @@
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@renderer/components/ui/Table"
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@renderer/components/ui/Table'
 
-const ShowData = ({data}) => {
-  if(!data || data.length === 0) return null
+const ShowData = ({ data }) => {
+  if (!data || data.length === 0) return null
   data = data.values.slice(1)
 
   return (
@@ -24,17 +24,16 @@ const ShowData = ({data}) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-        { data.slice(1).map((item: any[], index: number) => (
-          item.length > 0 
-            ? (
+          {data.slice(1).map((item: any[], index: number) =>
+            item.length > 0 ? (
               <TableRow key={index}>
                 <TableCell>{item[0]}</TableCell>
                 <TableCell>{item[1]}</TableCell>
                 <TableCell>{item[2]}</TableCell>
                 <TableCell className="text-right">{item[3]}</TableCell>
-              </TableRow> ) 
-            : null
-          ))}
+              </TableRow>
+            ) : null
+          )}
         </TableBody>
       </Table>
     </div>

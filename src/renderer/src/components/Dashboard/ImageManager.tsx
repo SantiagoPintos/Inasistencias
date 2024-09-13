@@ -1,14 +1,13 @@
-import { useState, useEffect } from "react"
-import AddImageDialog from "./AddImageDialog"
-import { RenderImages } from "./RenderImages"
-
+import { useState, useEffect } from 'react'
+import AddImageDialog from './AddImageDialog'
+import { RenderImages } from './RenderImages'
 
 const ShowImages = () => {
   const [thereIsImage, setThereIsImage] = useState(false)
   const [imgUrl, setImgUrl] = useState<string>('')
 
   useEffect(() => {
-    fetchImageUrl();
+    fetchImageUrl()
   }, [])
 
   const fetchImageUrl = async () => {
@@ -27,12 +26,11 @@ const ShowImages = () => {
 
   return (
     <>
-      { thereIsImage 
-      ? 
+      {thereIsImage ? (
         <RenderImages url={imgUrl} onDelete={fetchImageUrl} />
-      :
+      ) : (
         <AddImageDialog onInsert={fetchImageUrl} />
-      }
+      )}
     </>
   )
 }

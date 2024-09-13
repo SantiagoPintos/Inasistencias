@@ -11,7 +11,7 @@ import Logger from './logger/logger'
 import { ipcMainEvents } from './ipc/ipc'
 import { fetchData } from './net/fetchData'
 
-const logger = new Logger('main.log');
+const logger = new Logger('main.log')
 createDatabaseIfNotExists()
 const db = databaseConnector()
 createData(db)
@@ -54,25 +54,24 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-
   //fetch data from google sheets every 5 minutes and notify the renderer
   setInterval(async () => {
-    try{
+    try {
       const data = await fetchData()
-      if(data){
+      if (data) {
         BrowserWindow.getAllWindows().forEach((win) => {
           win.webContents.send('data-update', data)
         })
       }
     } catch (err) {
-      logger.error('Error fetching data: '+(err as Error).message)
+      logger.error('Error fetching data: ' + (err as Error).message)
     }
-  }, 300000)  
+  }, 300000)
 
   // Register the 'inasistencias' protocol
   protocol.handle('inasistencias', (req) => {
-    const filePath = req.url.replace('inasistencias://', '');
-    const fullFilePath = path.join(app.getPath('userData'), 'LocalImages', filePath);
+    const filePath = req.url.replace('inasistencias://', '')
+    const fullFilePath = path.join(app.getPath('userData'), 'LocalImages', filePath)
     return net.fetch(url.pathToFileURL(fullFilePath).toString())
   })
 
