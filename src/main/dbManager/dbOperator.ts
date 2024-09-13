@@ -132,10 +132,25 @@ export const deleteImage = async (db: Database): Promise<void> => {
             if(err){
                 logger.error(`Deleting image: ${err.message}`);
             }
-            logger.info('Image deleted');
+            logger.log('Image deleted');
         });
     } catch (err) {
         logger.error((err as Error).message);
     }
 }
 
+export const deleteAllData = async (db: Database): Promise<void> => {
+    const deleteData = `DELETE FROM data`;
+
+    try{
+        db.run(deleteData, (err) => {
+            if(err){
+                logger.error(`Deleting data: ${err.message}`);
+            }
+            logger.log('Data deleted');
+        });
+        deleteImage(db);
+    } catch (err) {
+        logger.error((err as Error).message);
+    }
+}
