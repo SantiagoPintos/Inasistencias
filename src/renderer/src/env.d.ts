@@ -12,6 +12,7 @@ declare global {
       sendImgUrl: (url: string) => Promise<void>;
       getImgUrl: () => Promise<string | null>;
       deleteImage: () => Promise<boolean>;
+      deleteAllData: () => Promise<boolean>;
     };
   }
   
