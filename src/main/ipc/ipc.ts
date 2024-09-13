@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 import { databaseConnector } from '../dbManager/dbConnection'
-import { insertData, insertImage, getImage, deleteImage } from '../dbManager/dbOperator'
+import { insertData, insertImage, getImage, deleteImage, deleteAllData } from '../dbManager/dbOperator'
 import { getLogsFileSize, clearLogs } from './../logger/loggerManager'
 import { saveImage } from './../imgManager/imgManager'
 import Logger from '../logger/logger'
@@ -85,6 +85,18 @@ export const ipcMainEvents = () => {
         return true
       } catch (err) {
         logger.error('Error deleting the image: '+(err as Error).message)
+        console.log(err)
+        return false
+      }
+    })
+
+    ipcMain.handle('delete-all-data', async () => {
+      try{
+        const db = databaseConnector()
+        await deleteAllData(db)
+        return true
+      } catch (err) {
+        logger.error('Error deleting the data: '+(err as Error).message)
         console.log(err)
         return false
       }
