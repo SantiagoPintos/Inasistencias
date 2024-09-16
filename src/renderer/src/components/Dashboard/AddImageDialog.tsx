@@ -22,23 +22,28 @@ const AddImageDialog = ({ onInsert }) => {
     }
 
     try {
+      let fileName;
       if (activeTab === 'url') {
         if (!url.current?.value) {
           setErrorMessage('La URL no es válida')
           throw new Error('URL is required')
         }
-        await window.api.sendImgUrl(url.current.value)
+        fileName = url.current.value;
       } else {
         if (filePath.current?.files?.length !== 1) {
           setErrorMessage('El archivo no es válido')
           throw new Error('File is required')
         }
         const file = filePath.current.files[0]
+        fileName = file.name
         if (!file.type.startsWith('image/')) {
           setErrorMessage('Tipo de archivo no válido o tamaño excedido')
           throw new Error('Invalid file type or size')
         }
-        await window.api.sendImgUrl(file.path)
+      }
+      if(!await window.api.sendImgUrl(fileName)) {
+        setErrorMessage('No se puede guardar el archivo')
+        throw new Error()
       }
       handleSuccessAlert()
       setShowDialog(false)
