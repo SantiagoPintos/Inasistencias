@@ -27,6 +27,14 @@ const saveImageFromUrl = async (imageUrl: string): Promise<string> => {
         res.pipe(fileStream)
         fileStream.on('finish', () => {
           fileStream.close()
+          //check if the file is an image, if not, delete it and throw an error
+          isImage(path.join(imgsDir, fileName)).then((isImage) => {
+            if (!isImage) {
+              fs.unlinkSync(path.join(imgsDir, fileName))
+              logger.error('El archivo no es una imagen')
+              reject(new Error('El archivo que se intenta agregar no es una imagen'))
+            }
+          })
           resolve(fileName)
         })
       })
@@ -39,6 +47,10 @@ const saveImageFromUrl = async (imageUrl: string): Promise<string> => {
 const saveImageFromLocalFile = async (filePath: string): Promise<string> => {
   if (!fs.existsSync(imgsDir)) {
     fs.mkdirSync(imgsDir)
+  }
+
+  if(!(await isImage(filePath))) {
+    throw new Error('El archivo no es una imagen')
   }
 
   const name = path.basename(filePath)
@@ -66,10 +78,6 @@ const isImage = async (imgPath: string): Promise<boolean> => {
 
 export const saveImage = async (imgPath: string): Promise<string> => {
   if (!imgPath || imgPath.trim() === '') throw new Error('Ruta no válida')
-
-  if (!(await isImage(imgPath))) {
-    throw new Error('El archivo no es una imagen válida')
-  }
 
   if (imgPath.startsWith('http')) {
     return saveImageFromUrl(imgPath)
