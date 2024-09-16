@@ -59,15 +59,17 @@ export const ipcMainEvents = () => {
     }
   })
 
-  ipcMain.on('save-image-url', async (_, url: string) => {
+  ipcMain.handle('save-image-url', async (_, url: string) => {
     try {
       logger.log(`Image url received in main`)
       const db = databaseConnector()
       const imgPath = await saveImage(url)
       await insertImage(db, imgPath)
+      return true
     } catch (err) {
       logger.error('Error saving the image url: ' + (err as Error).message)
       console.log(err)
+      return false
     }
   })
 
