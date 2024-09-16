@@ -25,16 +25,13 @@ const saveImageFromUrl = async (imageUrl: string): Promise<string> => {
         const fileName = `${Date.now()}.jpg`
         const fileStream = fs.createWriteStream(path.join(imgsDir, fileName))
         res.pipe(fileStream)
-        fileStream.on('finish', () => {
+        fileStream.on('finish', async () => {
           fileStream.close()
           //check if the file is an image, if not, delete it and throw an error
-          isImage(path.join(imgsDir, fileName)).then((isImage) => {
-            if (!isImage) {
-              fs.unlinkSync(path.join(imgsDir, fileName))
-              logger.error('El archivo no es una imagen')
-              reject(new Error('El archivo que se intenta agregar no es una imagen'))
-            }
-          })
+          if(!(await isImage(path.join(imgsDir, fileName)))) {
+            fs.unlinkSync(path.join(imgsDir, fileName))
+            reject(new Error('El archivo no es una imagen'))
+          }
           resolve(fileName)
         })
       })
@@ -49,7 +46,7 @@ const saveImageFromLocalFile = async (filePath: string): Promise<string> => {
     fs.mkdirSync(imgsDir)
   }
 
-  if(!(await isImage(filePath))) {
+  if (!(await isImage(filePath))) {
     throw new Error('El archivo no es una imagen')
   }
 
