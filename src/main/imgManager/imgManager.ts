@@ -59,6 +59,7 @@ const isImage = async (imgPath: string): Promise<boolean> => {
     await sharp(imgPath).metadata()
     return true
   } catch (err) {
+    logger.error(`Error al leer la imagen: ${(err as Error).message}`)
     return false
   }
 }
