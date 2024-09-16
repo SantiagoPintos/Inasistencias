@@ -9,7 +9,7 @@ declare global {
       openSettings: (callback: () => void) => void
       getLogsFileSize: () => Promise<number | null>
       clearLogs: () => Promise<void>
-      sendImgUrl: (url: string) => Promise<void>
+      sendImgUrl: (url: string) => Promise<boolean>
       getImgUrl: () => Promise<string | null>
       deleteImage: () => Promise<boolean>
       deleteAllData: () => Promise<boolean>
