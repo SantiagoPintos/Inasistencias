@@ -7,7 +7,7 @@ interface Api {
   openSettings: (callback: () => void) => void
   getLogsFileSize: () => Promise<number | null>
   clearLogs: () => Promise<void>
-  sendImgUrl: (url: string) => void
+  sendImgUrl: (url: string) => Promise<boolean>
   getImgUrl: () => Promise<string | null>
   deleteImage: () => Promise<boolean>
   deleteAllData: () => Promise<boolean>
@@ -28,7 +28,7 @@ const api: Api = {
   openSettings: (callback) => ipcRenderer.on('open-settings', (_event) => callback()),
   getLogsFileSize: () => ipcRenderer.invoke('get-logs-file-size'),
   clearLogs: () => ipcRenderer.invoke('delete-logs'),
-  sendImgUrl: (url) => ipcRenderer.send('save-image-url', url),
+  sendImgUrl: (url) => ipcRenderer.invoke('save-image-url', url),
   getImgUrl: () => ipcRenderer.invoke('get-image'),
   deleteImage: () => ipcRenderer.invoke('delete-image'),
   deleteAllData: () => ipcRenderer.invoke('delete-all-data')
