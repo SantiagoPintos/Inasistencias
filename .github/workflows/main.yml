@@ -29,6 +29,9 @@ jobs:
         with:
           version: 9
 
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Build/release Electron app
         uses: paneron/action-electron-builder@v1.8.1
         with:
