@@ -11,6 +11,7 @@ import { getLogsFileSize, clearLogs } from './../logger/loggerManager'
 import { saveImage } from './../imgManager/imgManager'
 import Logger from '../logger/logger'
 import { fetchData } from '../net/fetchData'
+import { relaunchApp } from '../utils/appUtils'
 
 const logger = new Logger()
 
@@ -107,6 +108,15 @@ export const ipcMainEvents = () => {
       logger.error('Error deleting the data: ' + (err as Error).message)
       console.log(err)
       return false
+    }
+  })
+
+  ipcMain.handle('relaunch-app', async () => {
+    try {
+      relaunchApp()
+    } catch (err) {
+      logger.error('Error relaunching the app: ' + (err as Error).message)
+      console.log(err)
     }
   })
 }
