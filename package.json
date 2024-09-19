@@ -38,6 +38,7 @@
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "electron-updater": "^6.3.4",
     "lucide-react": "^0.428.0",
     "postcss": "^8.4.41",
     "react-resizable-panels": "^2.1.2",
