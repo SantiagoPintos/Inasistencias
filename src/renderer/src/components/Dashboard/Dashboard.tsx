@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import ShowData from './showData'
 import ShowImages from './ImageManager'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from './../ui/ResizablePanel'
@@ -11,6 +11,7 @@ import {
 } from "@renderer/components/ui/ContextMenu"
 
 const Dashboard = () => {
+  const navigate = useNavigate()
   const location = useLocation()
   const data = location.state
   const [panelVisible, setPanelVisible] = useState<boolean>(true)
@@ -29,6 +30,10 @@ const Dashboard = () => {
       setBtnText('Ocultar panel de imágenes')
     }
     setPanelVisible(!panelVisible)
+  }
+
+  const handleGoToSettings = () => {
+    navigate('/settings')
   }
 
   return (
@@ -56,7 +61,7 @@ const Dashboard = () => {
       </ContextMenuTrigger>
       <ContextMenuContent>
         <ContextMenuItem onClick={handlePanelVisibility}>{btnText}</ContextMenuItem>
-        <ContextMenuItem>Ajustes</ContextMenuItem>
+        <ContextMenuItem onClick={handleGoToSettings}>Ajustes</ContextMenuItem>
         <ContextMenuItem>Reiniciar la aplicación</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
