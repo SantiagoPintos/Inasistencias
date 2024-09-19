@@ -39,5 +39,7 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: generic
-  url: https://github.com/santiagopintos/inasistencias
+  provider: github
+  owner: santiagopintos
+  repo: inasistencias
+  url: https://github.com/santiagopintos/inasistencias/
