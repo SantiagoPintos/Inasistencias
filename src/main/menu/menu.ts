@@ -1,4 +1,5 @@
-import { Menu, app, shell, BrowserWindow } from 'electron'
+import { Menu, shell, BrowserWindow } from 'electron'
+import { relaunchApp } from '../utils/appUtils'
 
 export const setMainMenu = () => {
   const template: Array<object> = [
@@ -12,8 +13,7 @@ export const setMainMenu = () => {
         {
           label: 'Recargar aplicación',
           click: () => {
-            app.relaunch()
-            app.quit()
+            relaunchApp()
           }
         },
         { type: 'separator' },
