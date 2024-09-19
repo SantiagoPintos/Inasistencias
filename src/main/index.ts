@@ -10,6 +10,7 @@ import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
 import { ipcMainEvents } from './ipc/ipc'
 import { fetchData } from './net/fetchData'
+import { autoUpdater } from 'electron-updater'
 
 const logger = new Logger('main.log')
 createDatabaseIfNotExists()
@@ -67,6 +68,10 @@ app.whenReady().then(() => {
       logger.error('Error fetching data: ' + (err as Error).message)
     }
   }, 300000)
+
+
+  // Check for updates
+  autoUpdater.checkForUpdatesAndNotify()
 
   // Register the 'inasistencias' protocol
   protocol.handle('inasistencias', (req) => {
