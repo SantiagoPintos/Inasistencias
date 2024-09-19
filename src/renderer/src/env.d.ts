@@ -13,6 +13,7 @@ declare global {
       getImgUrl: () => Promise<string | null>
       deleteImage: () => Promise<boolean>
       deleteAllData: () => Promise<boolean>
+      relaunchApp: () => void
     }
   }
 
