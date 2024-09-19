@@ -36,6 +36,10 @@ const Dashboard = () => {
     navigate('/settings')
   }
 
+  const handleRelaunchApp = () => {
+    window.api.relaunchApp()
+  }
+
   return (
     <ContextMenu>
       <ContextMenuTrigger> 
@@ -62,7 +66,7 @@ const Dashboard = () => {
       <ContextMenuContent>
         <ContextMenuItem onClick={handlePanelVisibility}>{btnText}</ContextMenuItem>
         <ContextMenuItem onClick={handleGoToSettings}>Ajustes</ContextMenuItem>
-        <ContextMenuItem>Reiniciar la aplicación</ContextMenuItem>
+        <ContextMenuItem onClick={handleRelaunchApp}>Reiniciar la aplicación</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   )
