@@ -42,4 +42,3 @@ publish:
   provider: github
   owner: santiagopintos
   repo: inasistencias
-  url: https://github.com/santiagopintos/inasistencias/
