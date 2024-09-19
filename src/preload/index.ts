@@ -11,6 +11,7 @@ interface Api {
   getImgUrl: () => Promise<string | null>
   deleteImage: () => Promise<boolean>
   deleteAllData: () => Promise<boolean>
+  relaunchApp: () => void
 }
 
 interface DataFromApi {
@@ -31,7 +32,8 @@ const api: Api = {
   sendImgUrl: (url) => ipcRenderer.invoke('save-image-url', url),
   getImgUrl: () => ipcRenderer.invoke('get-image'),
   deleteImage: () => ipcRenderer.invoke('delete-image'),
-  deleteAllData: () => ipcRenderer.invoke('delete-all-data')
+  deleteAllData: () => ipcRenderer.invoke('delete-all-data'),
+  relaunchApp: () => ipcRenderer.invoke('relaunch-app')
 }
 
 try {
