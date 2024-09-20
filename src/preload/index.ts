@@ -6,7 +6,7 @@ interface Api {
   dataUpdate: (callback: (data: DataFromApi) => void) => void
   openSettings: (callback: () => void) => void
   getLogsFileSize: () => Promise<number | null>
-  clearLogs: () => Promise<void>
+  clearLogs: () => Promise<boolean>
   sendImgUrl: (url: string) => Promise<boolean>
   getImgUrl: () => Promise<string | null>
   deleteImage: () => Promise<boolean>
