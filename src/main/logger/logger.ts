@@ -25,7 +25,7 @@ class Logger {
 
     fs.appendFile(this.logFilePath, logMessage, (err) => {
       if (err) {
-        throw new Error('Error al escribir en el archivo de log')
+        console.error('Error writing to log file: ' + err.message)
       }
     })
   }
