@@ -34,9 +34,27 @@ const Settings = () => {
   }, [])
 
   const handleDeleteClick = async () => {
-    await window.api.clearLogs()
-    const size = await window.api.getLogsFileSize()
-    if (size) setLogsSize(Math.round(size / 1024))
+    const deleted = await window.api.clearLogs()
+    if(deleted) {
+      setLogsSize(0)
+      setShowConfirmation(true)
+      setAlertMessage('Registros eliminados correctamente')
+      setAlertVariant('default')
+      setAlertTitle('Correcto')
+      setAlertIcon(<Check />)
+      setTimeout(() => {
+        setShowConfirmation(false)
+      }, 2000)
+    } else {
+      setShowConfirmation(true)
+      setAlertMessage('Error al eliminar los registros')
+      setAlertVariant('destructive')
+      setAlertTitle('Error')
+      setAlertIcon(<AlertCircle />)
+      setTimeout(() => {
+        setShowConfirmation(false)
+      }, 2000)
+    }
   }
 
   const handleGoBack = () => {
