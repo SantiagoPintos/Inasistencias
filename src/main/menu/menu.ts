@@ -5,7 +5,37 @@ export const setMainMenu = () => {
   const template: Array<object> = [
     {
       label: 'Inasistencias',
-      submenu: [{ role: 'quit', label: 'Salir' }]
+      submenu: [
+        { 
+          label: 'Acerca de Inasistencias',
+          submenu: [
+            {
+              label: 'Autor',
+              click: () => {
+                shell.openExternal('https://santiagopintos.github.io/')
+              }
+            },
+            {
+              label: 'Código fuente',
+              click: async () => {
+                await shell.openExternal('https://github.com/SantiagoPintos/Inasistencias')
+              }
+            },
+            { 
+              label: 'Reportar un problema',
+              click: async () => {
+                await shell.openExternal('https://github.com/SantiagoPintos/Inasistencias/issues')
+              }
+            },
+            { type: 'separator' },
+            {
+              role: 'about', label: 'Version'
+            }
+          ]
+        },
+        { type: 'separator'},
+        { role: 'quit', label: 'Salir'}
+      ]
     },
     {
       label: 'Vista',
@@ -21,7 +51,8 @@ export const setMainMenu = () => {
         { role: 'zoomIn', label: 'Aumentar zoom' },
         { role: 'zoomOut', label: 'Disminuir zoom' },
         { type: 'separator' },
-        { role: 'togglefullscreen', label: 'Pantalla completa' }
+        { role: 'togglefullscreen', label: 'Pantalla completa' },
+        { role: 'minimize', label: 'Minimizar' }
       ]
     },
     {
@@ -34,13 +65,7 @@ export const setMainMenu = () => {
             if (activeWindow) activeWindow.webContents.send('open-settings')
           }
         },
-        { role: 'toggleDevTools', label: 'Herramientas de desarrollo' },
-        {
-          label: 'Source code',
-          click: async () => {
-            await shell.openExternal('https://github.com/SantiagoPintos/Inasistencias')
-          }
-        }
+        { role: 'toggleDevTools', label: 'Herramientas de desarrollo' }
       ]
     }
   ]
