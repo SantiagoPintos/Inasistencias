@@ -29,7 +29,7 @@ export const setMainMenu = () => {
             },
             { type: 'separator' },
             {
-              role: 'about', label: 'Version'
+              role: 'about', label: 'Versión'
             }
           ]
         },
