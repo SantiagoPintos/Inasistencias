@@ -79,6 +79,9 @@ app.whenReady().then(() => {
       title: 'Una actualización está lista para instalarse',
       body: `La versión ${info.version} ha sido descargada y se instalará automáticamente cuando cierre la aplicación.`
     }).show()
+    BrowserWindow.getAllWindows().forEach((win) => {
+      win.setTitle('Inasistencias - Actualización pendiente')
+    })
   })
   
 
