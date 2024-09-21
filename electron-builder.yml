@@ -40,5 +40,6 @@ appImage:
 npmRebuild: false
 publish:
   provider: github
-  owner: santiagopintos
-  repo: inasistencias
+  owner: SantiagoPintos
+  repo: Inasistencias
+  releaseType: release
