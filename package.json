@@ -1,6 +1,6 @@
 {
   "name": "inasistencias",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An application to check the absences of teachers",
   "main": "./out/main/index.js",
   "author": "com.santiago",
