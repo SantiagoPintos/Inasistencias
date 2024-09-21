@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, protocol, net } from 'electron'
+import { app, shell, BrowserWindow, protocol, net, Notification } from 'electron'
 import url from 'url'
 import { join } from 'path'
 import path from 'path'
@@ -16,9 +16,6 @@ const logger = new Logger('main.log')
 createDatabaseIfNotExists()
 const db = databaseConnector()
 createData(db)
-
-// Boolean used to check if there is a new update downloaded
-let updateDownloaded = false
 
 function createWindow(): void {
   // Create the browser window.
@@ -74,11 +71,14 @@ app.whenReady().then(() => {
 
 
   // Check for updates
-  autoUpdater.checkForUpdatesAndNotify()
+  autoUpdater.checkForUpdates()
   // Install updates when the user closes the app
   autoUpdater.on('update-downloaded', (info) => {
     logger.info(`Update downloaded ${autoUpdater.currentVersion.version} -> ${info.version}`)
-    updateDownloaded = true
+    new Notification({
+      title: 'Una actualización está lista para instalarse',
+      body: `La versión ${info.version} ha sido descargada y se instalará automáticamente cuando cierre la aplicación.`
+    }).show()
   })
   
 
@@ -111,14 +111,6 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
-})
-
-app.on('before-quit', (event) => {
-  if (updateDownloaded) {
-    // Prevent the app from closing if there is an update ready to install
-    event.preventDefault()
-    autoUpdater.quitAndInstall()
-  }
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
