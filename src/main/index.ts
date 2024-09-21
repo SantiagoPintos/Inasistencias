@@ -17,6 +17,9 @@ createDatabaseIfNotExists()
 const db = databaseConnector()
 createData(db)
 
+// Boolean used to check if there is a new update downloaded
+let updateDownloaded = false
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -72,6 +75,12 @@ app.whenReady().then(() => {
 
   // Check for updates
   autoUpdater.checkForUpdatesAndNotify()
+  // Install updates when the user closes the app
+  autoUpdater.on('update-downloaded', (info) => {
+    logger.info(`Update downloaded ${autoUpdater.currentVersion.version} -> ${info.version}`)
+    updateDownloaded = true
+  })
+  
 
   // Register the 'inasistencias' protocol
   protocol.handle('inasistencias', (req) => {
@@ -102,6 +111,14 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+})
+
+app.on('before-quit', (event) => {
+  if (updateDownloaded) {
+    // Prevent the app from closing if there is an update ready to install
+    event.preventDefault()
+    autoUpdater.quitAndInstall()
+  }
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
