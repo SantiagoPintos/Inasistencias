@@ -35,7 +35,7 @@ const AddImageDialog = ({ onInsert }) => {
           throw new Error('File is required')
         }
         const file = filePath.current.files[0]
-        fileName = file.name
+        fileName = file.path
         if (!file.type.startsWith('image/')) {
           setErrorMessage('Tipo de archivo no válido o tamaño excedido')
           throw new Error('Invalid file type or size')
