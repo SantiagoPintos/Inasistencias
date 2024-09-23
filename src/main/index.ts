@@ -32,6 +32,9 @@ function createWindow(): void {
   })
 
   mainWindow.on('ready-to-show', () => {
+    // This is a workaround to set the app name in the window title bar, because the name in
+    // package.json could not start with a capital letter according to npm rules.
+    mainWindow.setTitle(app.getName().charAt(0).toUpperCase() + app.getName().slice(1))
     mainWindow.show()
     mainWindow.maximize()
     setMainMenu()
@@ -69,7 +72,6 @@ app.whenReady().then(() => {
     }
   }, 300000)
 
-
   // Check for updates
   autoUpdater.checkForUpdates()
   // Install updates when the user closes the app
@@ -83,7 +85,6 @@ app.whenReady().then(() => {
       win.setTitle('Inasistencias - Actualización pendiente')
     })
   })
-  
 
   // Register the 'inasistencias' protocol
   protocol.handle('inasistencias', (req) => {
