@@ -1,6 +1,6 @@
 import { Database } from 'sqlite3'
 import Logger from '../logger/logger'
-const logger = new Logger('dbOperator.log')
+const logger = new Logger()
 
 export const createData = (db: Database): void => {
   const createDataTable = `CREATE TABLE IF NOT EXISTS data (token TEXT NOT NULL, url TEXT NOT NULL, sheetName TEXT NOT NULL, PRIMARY KEY(token))`
