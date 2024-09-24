@@ -2,7 +2,7 @@ import { Database } from 'sqlite3'
 import Logger from '../logger/logger'
 const logger = new Logger()
 
-export async function initDatabase(db: Database): void {
+export async function initDatabase(db: Database): Promise<void> {
   try {
     await createData(db)
 
@@ -18,11 +18,13 @@ export async function initDatabase(db: Database): void {
       { name: 'name', type: 'TEXT' },
       { name: 'value', type: 'TEXT' }
     ])
-  } catch (err: Error) {
+  } catch (err) {
+    logger.error((err as Error).message)
     throw err
   }
+}
 
-export const createData = (db: Database): void => {
+async function createData (db: Database): Promise<void> {
   const createDataTable = `CREATE TABLE IF NOT EXISTS data (token TEXT NOT NULL, url TEXT NOT NULL, sheetName TEXT NOT NULL, PRIMARY KEY(token))`
   const createImageTable = `CREATE TABLE IF NOT EXISTS image (url TEXT NOT NULL, PRIMARY KEY(url))`
   const createPreferencesTable = `CREATE TABLE IF NOT EXISTS preferences (name TEXT NOT NULL, value TEXT NOT NULL, PRIMARY KEY(name))`
@@ -51,11 +53,11 @@ export const createData = (db: Database): void => {
 }
 
 // Function to check if all of the columns are present in a table, and if not, add them
-export const checkColumns = async (
+async function checkColumns(
   db: Database,
   tableName: string,
   columns: { name: string; type: string }[]
-): Promise<void> => {
+): Promise<void> {
   const getColumns = `PRAGMA table_info(${tableName})`
   const addColumn = `ALTER TABLE ${tableName} ADD COLUMN `
 
