@@ -28,7 +28,7 @@ export async function initDatabase(db: Database): Promise<void> {
     ])
   } catch (err) {
     logger.error((err as Error).message)
-    throw err
+    throw new Error('Algo salió mal')
   }
 }
 
