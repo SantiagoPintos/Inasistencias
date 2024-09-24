@@ -2,6 +2,26 @@ import { Database } from 'sqlite3'
 import Logger from '../logger/logger'
 const logger = new Logger()
 
+export async function initDatabase(db: Database): void {
+  try {
+    await createData(db)
+
+    await checkColumns(db, 'data', [
+      { name: 'token', type: 'TEXT' },
+      { name: 'url', type: 'TEXT' },
+      { name: 'sheetName', type: 'TEXT' }
+    ])
+
+    await checkColumns(db, 'image', [{ name: 'url', type: 'TEXT' }])
+
+    await checkColumns(db, 'preferences', [
+      { name: 'name', type: 'TEXT' },
+      { name: 'value', type: 'TEXT' }
+    ])
+  } catch (err: Error) {
+    throw err
+  }
+
 export const createData = (db: Database): void => {
   const createDataTable = `CREATE TABLE IF NOT EXISTS data (token TEXT NOT NULL, url TEXT NOT NULL, sheetName TEXT NOT NULL, PRIMARY KEY(token))`
   const createImageTable = `CREATE TABLE IF NOT EXISTS image (url TEXT NOT NULL, PRIMARY KEY(url))`
@@ -194,7 +214,7 @@ export const deleteImage = async (db: Database): Promise<void> => {
   }
 }
 
-export const deleteAllData = async (db: Database): Promise<void> => {
+export const deleteAllData = async function deleteAllData (db: Database): Promise<void> {
   const deleteData = `DELETE FROM data`
 
   try {
