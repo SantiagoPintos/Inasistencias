@@ -2,6 +2,14 @@ import { Database } from 'sqlite3'
 import Logger from '../logger/logger'
 const logger = new Logger()
 
+/**
+ * Function to initialize the database with the necessary tables and columns, 
+ * if you want to add more columns to the tables, you should do it here!
+ * 
+ * @param db The database object
+ * @returns A promise that resolves when the database is initialized
+ * @throws An error if the database cannot be initialized
+ */
 export async function initDatabase(db: Database): Promise<void> {
   try {
     await createData(db)
