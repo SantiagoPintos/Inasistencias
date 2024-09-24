@@ -5,6 +5,7 @@ const logger = new Logger('dbOperator.log')
 export const createData = (db: Database): void => {
   const createDataTable = `CREATE TABLE IF NOT EXISTS data (token TEXT NOT NULL, url TEXT NOT NULL, sheetName TEXT NOT NULL, PRIMARY KEY(token))`
   const createImageTable = `CREATE TABLE IF NOT EXISTS image (url TEXT NOT NULL, PRIMARY KEY(url))`
+  const createPreferencesTable = `CREATE TABLE IF NOT EXISTS preferences (name TEXT NOT NULL, value TEXT NOT NULL, PRIMARY KEY(name))`
   try {
     db.run(createDataTable, (err) => {
       if (err) {
@@ -17,6 +18,12 @@ export const createData = (db: Database): void => {
         logger.error(`Creating image table: ${err.message}`)
       }
       logger.info('Image table created')
+    })
+    db.run(createPreferencesTable, (err) => {
+      if (err) {
+        logger.error(`Creating preferences table: ${err.message}`)
+      }
+      logger.info('Preferences table created')
     })
   } catch (err) {
     logger.error((err as Error).message)
