@@ -4,7 +4,7 @@ import { join } from 'path'
 import path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { databaseConnector, createDatabaseIfNotExists } from './dbManager/dbConnection'
-import { createData } from './dbManager/dbOperator'
+import { initDatabase } from './dbManager/dbOperator'
 import { setMainMenu } from './menu/menu'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
@@ -15,7 +15,7 @@ import { autoUpdater } from 'electron-updater'
 const logger = new Logger('main.log')
 createDatabaseIfNotExists()
 const db = databaseConnector()
-createData(db)
+initDatabase(db)
 
 function createWindow(): void {
   // Create the browser window.

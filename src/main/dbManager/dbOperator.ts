@@ -1,8 +1,38 @@
 import { Database } from 'sqlite3'
 import Logger from '../logger/logger'
-const logger = new Logger('dbOperator.log')
+const logger = new Logger()
 
-export const createData = (db: Database): void => {
+/**
+ * Function to initialize the database with the necessary tables and columns, 
+ * if you want to add more columns to the tables, you should do it here!
+ * 
+ * @param db The database object
+ * @returns A promise that resolves when the database is initialized
+ * @throws An error if the database cannot be initialized
+ */
+export async function initDatabase(db: Database): Promise<void> {
+  try {
+    await createData(db)
+
+    await checkColumns(db, 'data', [
+      { name: 'token', type: 'TEXT' },
+      { name: 'url', type: 'TEXT' },
+      { name: 'sheetName', type: 'TEXT' }
+    ])
+
+    await checkColumns(db, 'image', [{ name: 'url', type: 'TEXT' }])
+
+    await checkColumns(db, 'preferences', [
+      { name: 'name', type: 'TEXT' },
+      { name: 'value', type: 'TEXT' }
+    ])
+  } catch (err) {
+    logger.error((err as Error).message)
+    throw new Error('Algo salió mal')
+  }
+}
+
+async function createData (db: Database): Promise<void> {
   const createDataTable = `CREATE TABLE IF NOT EXISTS data (token TEXT NOT NULL, url TEXT NOT NULL, sheetName TEXT NOT NULL, PRIMARY KEY(token))`
   const createImageTable = `CREATE TABLE IF NOT EXISTS image (url TEXT NOT NULL, PRIMARY KEY(url))`
   const createPreferencesTable = `CREATE TABLE IF NOT EXISTS preferences (name TEXT NOT NULL, value TEXT NOT NULL, PRIMARY KEY(name))`
@@ -27,6 +57,48 @@ export const createData = (db: Database): void => {
     })
   } catch (err) {
     logger.error((err as Error).message)
+  }
+}
+
+// Function to check if all of the columns are present in a table, and if not, add them
+async function checkColumns(
+  db: Database,
+  tableName: string,
+  columns: { name: string; type: string }[]
+): Promise<void> {
+  const getColumns = `PRAGMA table_info(${tableName})`
+  const addColumn = `ALTER TABLE ${tableName} ADD COLUMN `
+
+  try {
+    const rows = await new Promise<{ name: string }[]>((resolve, reject) => {
+      db.all(getColumns, [], (err, rows: { name: string }[]) => {
+        if (err) {
+          logger.error(`Checking columns: ${err.message}`)
+          return reject(err)
+        }
+        resolve(rows)
+      })
+    })
+
+    const columnNames = rows.map((row) => row.name)
+
+    for (const { name, type } of columns) {
+      if (!columnNames.includes(name)) {
+        await new Promise<void>((resolve, reject) => {
+          db.run(addColumn + `${name} ${type}`, (err) => {
+            if (err) {
+              logger.error(`Adding column: ${err.message}`)
+              return reject(err)
+            }
+            logger.info(`Column ${name} added`)
+            resolve()
+          })
+        })
+      }
+    }
+  } catch (err) {
+    logger.error((err as Error).message)
+    throw err
   }
 }
 
@@ -152,7 +224,7 @@ export const deleteImage = async (db: Database): Promise<void> => {
   }
 }
 
-export const deleteAllData = async (db: Database): Promise<void> => {
+export const deleteAllData = async function deleteAllData (db: Database): Promise<void> {
   const deleteData = `DELETE FROM data`
 
   try {
