@@ -36,6 +36,8 @@ const api: Api = {
   relaunchApp: () => ipcRenderer.invoke('relaunch-app')
 }
 
+if(!process.contextIsolated) throw new Error('We could not isolate the context')
+
 try {
   contextBridge.exposeInMainWorld('api', api)
 } catch (error) {
