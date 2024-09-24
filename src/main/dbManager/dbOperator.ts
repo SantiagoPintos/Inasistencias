@@ -30,6 +30,48 @@ export const createData = (db: Database): void => {
   }
 }
 
+// Function to check if all of the columns are present in a table, and if not, add them
+export const checkColumns = async (
+  db: Database,
+  tableName: string,
+  columns: { name: string; type: string }[]
+): Promise<void> => {
+  const getColumns = `PRAGMA table_info(${tableName})`
+  const addColumn = `ALTER TABLE ${tableName} ADD COLUMN `
+
+  try {
+    const rows = await new Promise<{ name: string }[]>((resolve, reject) => {
+      db.all(getColumns, [], (err, rows: { name: string }[]) => {
+        if (err) {
+          logger.error(`Checking columns: ${err.message}`)
+          return reject(err)
+        }
+        resolve(rows)
+      })
+    })
+
+    const columnNames = rows.map((row) => row.name)
+
+    for (const { name, type } of columns) {
+      if (!columnNames.includes(name)) {
+        await new Promise<void>((resolve, reject) => {
+          db.run(addColumn + `${name} ${type}`, (err) => {
+            if (err) {
+              logger.error(`Adding column: ${err.message}`)
+              return reject(err)
+            }
+            logger.info(`Column ${name} added`)
+            resolve()
+          })
+        })
+      }
+    }
+  } catch (err) {
+    logger.error((err as Error).message)
+    throw err
+  }
+}
+
 export const insertData = async (
   db: Database,
   token: string,
