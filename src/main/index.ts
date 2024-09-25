@@ -12,6 +12,7 @@ import { ipcMainEvents } from './ipc/ipc'
 import { fetchData } from './net/fetchData'
 import { autoUpdater } from 'electron-updater'
 import { setupPreferences } from './preferences/setupPreferences'
+import { getLaunchOnStartupStatus } from './preferences/preferencesManager'
 
 const logger = new Logger('main.log')
 createDatabaseIfNotExists()
@@ -107,8 +108,8 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.santiago.inasistencias')
 
-  // Set auto launch on startup
-  electronApp.setAutoLaunch(true)
+  // Configure auto launch on startup
+  electronApp.setAutoLaunch(getLaunchOnStartupStatus())
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
