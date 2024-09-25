@@ -12,6 +12,7 @@ import { saveImage } from './../imgManager/imgManager'
 import Logger from '../logger/logger'
 import { fetchData } from '../net/fetchData'
 import { relaunchApp } from '../utils/appUtils'
+import { setLaunchOnSartup, getLaunchOnStartupStatus } from './../preferences/preferencesManager'
 
 const logger = new Logger()
 
@@ -117,6 +118,26 @@ export const ipcMainEvents = () => {
     } catch (err) {
       logger.error('Error relaunching the app: ' + (err as Error).message)
       console.log(err)
+    }
+  })
+
+  ipcMain.handle('set-start-on-boot', async (_, status: boolean) => {
+    try {
+      logger.log(`Start on boot status received in main`)
+      return setLaunchOnSartup(status)
+    } catch (err) {
+      logger.error('Error setting the start on boot status: ' + (err as Error).message)
+      return false
+    }
+  })
+
+  ipcMain.handle('get-start-on-boot-status', async () => {
+    try {
+      logger.log(`Start on boot status requested in main`)
+      return getLaunchOnStartupStatus()
+    } catch (err) {
+      logger.error('Error getting the start on boot status: ' + (err as Error).message)
+      return false
     }
   })
 }
