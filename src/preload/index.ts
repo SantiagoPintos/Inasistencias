@@ -12,6 +12,8 @@ interface Api {
   deleteImage: () => Promise<boolean>
   deleteAllData: () => Promise<boolean>
   relaunchApp: () => void
+  getStartOnBootStatus: () => Promise<boolean>
+  setStartOnBoot: (status: boolean) => Promise<boolean>
 }
 
 interface DataFromApi {
@@ -33,7 +35,9 @@ const api: Api = {
   getImgUrl: () => ipcRenderer.invoke('get-image'),
   deleteImage: () => ipcRenderer.invoke('delete-image'),
   deleteAllData: () => ipcRenderer.invoke('delete-all-data'),
-  relaunchApp: () => ipcRenderer.invoke('relaunch-app')
+  relaunchApp: () => ipcRenderer.invoke('relaunch-app'),
+  getStartOnBootStatus: () => ipcRenderer.invoke('get-start-on-boot-status'),
+  setStartOnBoot: (status) => ipcRenderer.invoke('set-start-on-boot', status)
 }
 
 if(!process.contextIsolated) throw new Error('We could not isolate the context')
