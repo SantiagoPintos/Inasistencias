@@ -11,6 +11,7 @@ import Logger from './logger/logger'
 import { ipcMainEvents } from './ipc/ipc'
 import { fetchData } from './net/fetchData'
 import { autoUpdater } from 'electron-updater'
+import { setupPreferences } from './preferences/setupPreferences'
 
 const logger = new Logger('main.log')
 createDatabaseIfNotExists()
@@ -62,6 +63,9 @@ app.whenReady().then(() => {
   // Prevent multiple instances of the app
   const gotTheLock = app.requestSingleInstanceLock()
   if (!gotTheLock) app.quit()
+
+  // Setup preferences if they don't exist (first run)
+  setupPreferences()
 
   //fetch data from google sheets every 5 minutes and notify the renderer
   setInterval(async () => {
