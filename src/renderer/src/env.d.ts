@@ -14,6 +14,8 @@ declare global {
       deleteImage: () => Promise<boolean>
       deleteAllData: () => Promise<boolean>
       relaunchApp: () => void
+      getStartOnBootStatus: () => Promise<boolean>
+      setStartOnBoot: (status: boolean) => Promise<boolean>
     }
   }
 
