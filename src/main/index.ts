@@ -11,6 +11,8 @@ import Logger from './logger/logger'
 import { ipcMainEvents } from './ipc/ipc'
 import { fetchData } from './net/fetchData'
 import { autoUpdater } from 'electron-updater'
+import { setupPreferences } from './preferences/setupPreferences'
+import { getLaunchOnStartupStatus } from './preferences/preferencesManager'
 
 const logger = new Logger('main.log')
 createDatabaseIfNotExists()
@@ -63,6 +65,9 @@ app.whenReady().then(() => {
   const gotTheLock = app.requestSingleInstanceLock()
   if (!gotTheLock) app.quit()
 
+  // Setup preferences if they don't exist (first run)
+  setupPreferences()
+
   //fetch data from google sheets every 5 minutes and notify the renderer
   setInterval(async () => {
     try {
@@ -103,8 +108,8 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.santiago.inasistencias')
 
-  // Set auto launch on startup
-  electronApp.setAutoLaunch(true)
+  // Configure auto launch on startup
+  electronApp.setAutoLaunch(getLaunchOnStartupStatus())
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
