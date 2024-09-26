@@ -4,10 +4,10 @@ import fs from 'fs'
 import Logger from '../logger/logger'
 
 const logger = new Logger()
-const prefsPath = path.join(app.getPath('userData'), 'Prefs', 'prefs.json')
-const preferences = JSON.parse(fs.readFileSync(prefsPath, 'utf-8'))
 
 export const setLaunchOnSartup = (value: boolean) => {
+  const prefsPath = path.join(app.getPath('userData'), 'Prefs', 'prefs.json')
+  const preferences = JSON.parse(fs.readFileSync(prefsPath, 'utf-8'))
   preferences.autoLaunchOnStart = value
   try {
     fs.writeFileSync(prefsPath, JSON.stringify(preferences), { flag: 'w' })
@@ -19,5 +19,7 @@ export const setLaunchOnSartup = (value: boolean) => {
 }
 
 export const getLaunchOnStartupStatus = (): boolean => {
+  const prefsPath = path.join(app.getPath('userData'), 'Prefs', 'prefs.json')
+  const preferences = JSON.parse(fs.readFileSync(prefsPath, 'utf-8'))
   return preferences.autoLaunchOnStart
 }
