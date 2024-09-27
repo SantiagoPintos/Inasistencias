@@ -1,3 +1,4 @@
+import { BrowserWindow } from 'electron'
 import { databaseConnector } from './../dbManager/dbConnection'
 import { getTokenAndSheetName } from './../dbManager/dbOperator'
 import Logger from '../logger/logger'
@@ -23,4 +24,19 @@ export async function fetchData(): Promise<DataFromApi | null> {
     throw new Error('Something went wrong')
   }
   return await response.json()
+}
+
+export async function autoFetchData(): Promise<void> {
+  setInterval(async () => {
+    try {
+      const data = await fetchData()
+      if (data) {
+        BrowserWindow.getAllWindows().forEach((win) => {
+          win.webContents.send('data-update', data)
+        })
+      }
+    } catch (err) {
+      logger.error('Error fetching data: ' + (err as Error).message)
+    }
+  }, 300000)
 }

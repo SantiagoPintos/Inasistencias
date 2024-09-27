@@ -9,10 +9,10 @@ import { setMainMenu } from './menu/menu'
 import icon from '../../resources/icon.png?asset'
 import Logger from './logger/logger'
 import { ipcMainEvents } from './ipc/ipc'
-import { fetchData } from './net/fetchData'
 import { autoUpdater } from 'electron-updater'
 import { setupPreferences } from './preferences/setupPreferences'
 import { getLaunchOnStartupStatus } from './preferences/preferencesManager'
+import { autoFetchData } from './net/fetchData'
 
 const logger = new Logger('main.log')
 createDatabaseIfNotExists()
@@ -68,19 +68,8 @@ app.whenReady().then(() => {
   // Setup preferences if they don't exist (first run)
   setupPreferences()
 
-  //fetch data from google sheets every 5 minutes and notify the renderer
-  setInterval(async () => {
-    try {
-      const data = await fetchData()
-      if (data) {
-        BrowserWindow.getAllWindows().forEach((win) => {
-          win.webContents.send('data-update', data)
-        })
-      }
-    } catch (err) {
-      logger.error('Error fetching data: ' + (err as Error).message)
-    }
-  }, 300000)
+  // Automatically fetch data and notify the renderer
+  autoFetchData()
 
   // Check for updates
   autoUpdater.checkForUpdates()
