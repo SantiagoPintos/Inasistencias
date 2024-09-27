@@ -1,7 +1,9 @@
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, app } from 'electron'
 import { databaseConnector } from './../dbManager/dbConnection'
 import { getTokenAndSheetName } from './../dbManager/dbOperator'
 import Logger from '../logger/logger'
+import fs from 'fs'
+import path from 'path'
 const logger = new Logger()
 
 interface DataFromApi {
@@ -27,6 +29,14 @@ export async function fetchData(): Promise<DataFromApi | null> {
 }
 
 export async function autoFetchData(): Promise<void> {
+  const prefsPath = path.join(app.getPath('userData'), 'Prefs', 'prefs.json')
+  const preferences = JSON.parse(fs.readFileSync(prefsPath, 'utf-8'))
+  let timeInterval = preferences.refreshInterval || 5
+  // In case the user enters a random value (negative or something like 60000000000000000000000)
+  if (timeInterval < 1 || timeInterval > 60) timeInterval = 5
+  // Convert timeInterval from minutes to milliseconds
+  const interval = timeInterval * 600
+
   setInterval(async () => {
     try {
       const data = await fetchData()
@@ -38,5 +48,5 @@ export async function autoFetchData(): Promise<void> {
     } catch (err) {
       logger.error('Error fetching data: ' + (err as Error).message)
     }
-  }, 300000)
+  }, interval)
 }
