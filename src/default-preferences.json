@@ -1,6 +1,6 @@
 {
     "preferences" : {
         "autoLaunchOnStart" : true,
-        "refreshInterval" : 60
+        "refreshInterval" : 5
     }
 }
