@@ -125,12 +125,6 @@ const Settings = () => {
         </div>
         <Separator className="my-6" />
         <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Logs</h2>
-          <p className="text-muted-foreground mb-2">Tamaño de los registros: {logsSize} KB</p>
-          <Button onClick={handleDeleteClick}> Eliminar registros </Button>
-        </div>
-        <Separator className="my-6" />
-        <div className="space-y-0.5">
           <h2 className="text-2xl font-bold tracking-tight">
             Iniciar aplicación al arrancar el sistema
           </h2>
@@ -142,6 +136,12 @@ const Settings = () => {
               checked={startOnBoot}
             ></Switch>
           </div>
+        </div>
+        <Separator className="my-6" />
+        <div className="space-y-0.5">
+          <h2 className="text-2xl font-bold tracking-tight">Logs</h2>
+          <p className="text-muted-foreground mb-2">Tamaño de los registros: {logsSize} KB</p>
+          <Button onClick={handleDeleteClick}> Eliminar registros </Button>
         </div>
         <Separator className="my-6" />
         <div className="space-y-0.5">
