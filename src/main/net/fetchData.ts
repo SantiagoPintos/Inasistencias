@@ -35,7 +35,7 @@ export async function autoFetchData(): Promise<void> {
   // In case the user enters a random value (negative or something like 60000000000000000000000)
   if (timeInterval < 1 || timeInterval > 60) timeInterval = 5
   // Convert timeInterval from minutes to milliseconds
-  const interval = timeInterval * 600
+  const interval = timeInterval * 60000
 
   setInterval(async () => {
     try {
