@@ -12,7 +12,7 @@ import { saveImage } from './../imgManager/imgManager'
 import Logger from '../logger/logger'
 import { fetchData } from '../net/fetchData'
 import { relaunchApp } from '../utils/appUtils'
-import { setLaunchOnSartup, getLaunchOnStartupStatus } from './../preferences/preferencesManager'
+import { setLaunchOnSartup, getLaunchOnStartupStatus, getUpdateInterval } from './../preferences/preferencesManager'
 
 const logger = new Logger()
 
@@ -138,6 +138,16 @@ export const ipcMainEvents = () => {
     } catch (err) {
       logger.error('Error getting the start on boot status: ' + (err as Error).message)
       return false
+    }
+  })
+
+  ipcMain.handle('get-update-interval', async () => {
+    try {
+      logger.log(`Update interval requested in main`)
+      return getUpdateInterval()
+    } catch (err) {
+      logger.error('Error getting the update interval: ' + (err as Error).message)
+      return null
     }
   })
 }
