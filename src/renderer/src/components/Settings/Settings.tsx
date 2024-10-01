@@ -163,7 +163,7 @@ const Settings = () => {
             Intervalo de actualización
           </h2>
           <label>Frecuencia con la que se actualizan los datos</label>
-          <div className="w-full max-w-10 space-y-1">
+          <div className="w-full max-w-xs space-y-1">
             <Input type="text" disabled value={updateInterval}/>
           </div>
         </div>
