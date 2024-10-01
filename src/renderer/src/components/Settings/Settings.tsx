@@ -16,6 +16,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from '@renderer/components/ui/Alert'
 import { Switch } from '@renderer/components/ui/Switch'
 import { Check, AlertCircle, CircleArrowLeft } from 'lucide-react'
+import { Input } from '@renderer/components/ui/Input'
 
 const Settings = () => {
   const navigate = useNavigate()
@@ -26,6 +27,7 @@ const Settings = () => {
   const [alertMessage, setAlertMessage] = useState<string>('')
   const [alertIcon, setAlertIcon] = useState<React.ReactNode>(<Check />)
   const [startOnBoot, setStartOnBoot] = useState<boolean>(false)
+  const [updateInterval, setUpdateInterval] = useState<number>(0)
 
   useEffect(() => {
     const logsFileSize = async () => {
@@ -34,6 +36,7 @@ const Settings = () => {
     }
     getStartOnBootStatus()
     logsFileSize()
+    getUpdateInterval()
   }, [])
 
   const handleDeleteClick = async () => {
@@ -101,6 +104,23 @@ const Settings = () => {
     setStartOnBoot(await window.api.getStartOnBootStatus())
   }
 
+  const getUpdateInterval = async () => {
+    try {
+      setUpdateInterval(await window.api.getUpdateInterval()) 
+    } catch (err) {
+      console.error(err)
+      setShowConfirmation(true)
+      setAlertMessage('Error al obtener la configuración')
+      setAlertVariant('destructive')
+      setAlertTitle('Error')
+      setAlertIcon(<AlertCircle />)
+      setTimeout(() => {
+        setShowConfirmation(false)
+      }, 3000)
+    }
+  }
+
+
   return (
     <>
       <div className="hidden space-y-6 p-10 pb-16 md:block">
@@ -135,6 +155,16 @@ const Settings = () => {
               onCheckedChange={handleStartOnBootChange}
               checked={startOnBoot}
             ></Switch>
+          </div>
+        </div>
+        <Separator className="my-6" />
+        <div className="space-y-0.5">
+          <h2 className="text-2xl font-bold tracking-tight">
+            Intervalo de actualización
+          </h2>
+          <label>Frecuencia con la que se actualizan los datos</label>
+          <div className="w-full max-w-10 space-y-1">
+            <Input type="text" disabled value={updateInterval}/>
           </div>
         </div>
         <Separator className="my-6" />
