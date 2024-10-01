@@ -16,6 +16,7 @@ declare global {
       relaunchApp: () => void
       getStartOnBootStatus: () => Promise<boolean>
       setStartOnBoot: (status: boolean) => Promise<boolean>
+      getUpdateInterval: () => Promise<number>
     }
   }
 
