@@ -23,3 +23,9 @@ export const getLaunchOnStartupStatus = (): boolean => {
   const preferences = JSON.parse(fs.readFileSync(prefsPath, 'utf-8'))
   return preferences.autoLaunchOnStart
 }
+
+export const getUpdateInterval = (): number => {
+  const prefsPath = path.join(app.getPath('userData'), 'Prefs', 'prefs.json')
+  const preferences = JSON.parse(fs.readFileSync(prefsPath, 'utf-8'))
+  return preferences.refreshInterval || 5
+}
